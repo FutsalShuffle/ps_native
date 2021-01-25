@@ -6,6 +6,7 @@ import {
 import AppNavigator from './src/navigation/AppNavigator';
 import {connect} from 'react-redux';
 import {verifyUser} from './src/actions/userManagement';
+import {getCategories} from './src/actions/categoryManagement';
 
 const mapStateToProps = (state) => {
   return {
@@ -16,6 +17,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     verify: (payload) => dispatch(verifyUser(payload)),
+    getCategories: () => dispatch(getCategories()),
   }
 }
 
@@ -23,6 +25,7 @@ const App = (props) => {
 
   useEffect(() => {
     props.verify();
+    props.getCategories();
   }, []);
 
   return (

@@ -6,24 +6,24 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  ShadowPropTypesIOS,
 } from 'react-native';
-import Config from '../../Config';
+import {connect} from 'react-redux';
 
-const Categories = ({route, navigation}) => {
-  const [categoriesData, setCategories] = useState([]);
+const Categories = (props) => {
 
   const styles = StyleSheet.create({
     container: {
       paddingTop: 50,
       flex: 1,
-      alignItems : 'center'
+      padding: 150
     },
     tinyLogo: {
       width: 100,
@@ -34,48 +34,48 @@ const Categories = ({route, navigation}) => {
       height: 58,
     },
     maincategory: {
-        fontSize: 14,
+        fontSize: 24,
+        width: 400
     },
     childcategory: {
-        fontSize: 12,
-        paddingLeft: 15
+        fontSize: 15,
+        paddingLeft: 20
     },
   });
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-   const getCategories = async () => {
-    try {
-      let response = await fetch(
-        Config.API + '/categories'
-      );
-      let json = await response.json();
-      setCategories(json.categories.children);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
-          <View>
+          <View style={styles.container}>
               {
-                categoriesData.map(category => (
-                  <View key={category.id} style={styles.container}>
-                    <Text onPress={() =>
-                        navigation.navigate('Category', { id_category: category.id })
-                    }>{category.name}</Text>
+                props.categories.map(category => (
+                  <View key={category.id}>
+                    <Text style={styles.maincategory} onPress={() =>
+                        props.navigation.navigate('Category', { id_category: category.id })}>
+                          {category.name}
+                    </Text>
+                    { category.children ?
+                        category.children.map(subcategory => (
+                            <Text key={subcategory.id} 
+                            style={styles.childcategory}
+                            onPress={() => props.navigation.navigate('Category', { id_category: subcategory.id })}
+                            >
+                              {subcategory.name}
+                            </Text>
+                        ))
+                      : null}
                   </View>
-                ))
-              }
+                ))}
               </View>
           </ScrollView>
       </SafeAreaView>
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories.categories,
+  }
+}
 
-export default Categories;
+export default connect(mapStateToProps)(Categories);

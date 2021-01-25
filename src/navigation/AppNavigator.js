@@ -16,12 +16,12 @@ const CategoryStackScreen = props => {
         <CategoryStack.Screen
           name="Categories"
           component={Categories}
-          options={{ tabBarLabel: 'Settings!' }}
+          options={{ tabBarLabel: 'Categories' }}
         />
         <CategoryStack.Screen
           name="Category"
           component={Category}
-          options={{ tabBarLabel: 'Settings!' }}
+          options={{ tabBarLabel: 'Category' }}
         />
       </CategoryStack.Navigator>
     );

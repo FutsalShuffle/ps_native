@@ -16,6 +16,9 @@ import {
   ScrollView,
 } from 'react-native';
 import Config from '../../Config';
+import {getCategory} from '../actions/categoryManagement';
+import {addToCart} from '../actions/cartManagement';
+import {connect} from 'react-redux';
 
 
 const styles = StyleSheet.create({
@@ -23,10 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
-const Category = ({ route, navigation}) => {
-  const [categoryData, setCategoryProducts] = useState([]);
-  const [errors, setError] = useState('');
-  const [cart, setCart] = useState([]);
+const Category = (props) => {
+
 
   const styles = StyleSheet.create({
     container: {
@@ -46,37 +47,17 @@ const Category = ({ route, navigation}) => {
 
   useEffect(() => {
     getProducts();
-  }, [route.params.id_category]);
+  }, [props.route.params.id_category]);
 
-   const getProducts = async () => {
-    try {
-      let response = await fetch(
-        Config.API + '/category?id_category='+route.params.id_category
-      );
-      let json = await response.json();
-      if (!json.success) setError(json[0]);
-      else setCategoryProducts(json.products);
-    } catch (error) {
-      console.error(error);
-    }
+   const getProducts = () => {
+    props.getCategory(props.route.params.id_category);
   }
 
   const addToCart = async (id_product, id_product_attribute) => {
-    try {
-      let response = await fetch(
-        Config.API + '/racart?id_product='+id_product+'&quantity=1&id_product_attribute='+id_product_attribute+'&method=addToCart',
-        {
-          headers: {
-            'Authorization': 'Bearer '+Config.token
-          },
-        }
-      );
-      let json = await response.json();
-      if (!json.success) setError(json[0]);
-      else setCart(json.cart);
-    } catch (error) {
-      console.error(error);
-    }
+    props.addToCart({
+      id_product: id_product,
+      id_product_attribute: id_product_attribute,
+    })
   }
 
   return (
@@ -86,7 +67,7 @@ const Category = ({ route, navigation}) => {
           style={styles.scrollView}>
           <View>
               {
-                categoryData.map(product => (
+                props.categoryProducts.map(product => (
                   <View key={product.id_product} style={styles.container}>
                     <Image 
                     style={styles.tinyLogo}
@@ -109,5 +90,15 @@ const Category = ({ route, navigation}) => {
       </SafeAreaView>
   );
 };
-
-export default Category;
+const mapStateToProps = (state) => {
+  return {
+    categoryProducts: state.categories.category,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCart: (payload) => dispatch(addToCart(payload)),
+    getCategory: (payload) => dispatch(getCategory(payload)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Category);
