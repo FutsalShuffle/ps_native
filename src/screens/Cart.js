@@ -18,7 +18,6 @@ import {connect} from 'react-redux';
 import Config from '../../Config';
 
 const Cart = (props) => {
-  console.log(props.cart);
   const styles = StyleSheet.create({
     container: {
       paddingTop: 80,
@@ -26,7 +25,7 @@ const Cart = (props) => {
       flex: 1,
     },
     productName: {
-      fontSize: 18,
+      fontSize: 16,
     }
   });
 

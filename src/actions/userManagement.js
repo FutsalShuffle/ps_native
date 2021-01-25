@@ -12,7 +12,6 @@ export const loginUser = (payload) => {
 export const registerUser = (payload) => {
     return async dispatch  => {
         let user = await AjaxProvider('/register?email='+payload.email+'&password='+payload.password+'&firstname='+payload.firstname+'&lastname='+payload.lastname);
-        console.log(user);
         dispatch(dispatchRegisterUser(user));
     }
 }
