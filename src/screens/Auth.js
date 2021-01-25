@@ -14,11 +14,12 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Button
 } from 'react-native';
 import {connect} from 'react-redux';
 import Login from '../components/Login';
 import Register from '../components/Register';
-
+import {logoutUser} from '../actions/userManagement';
 
 const Auth = (props) => {
   const [showRegister, setShowRegister] = useState(0);
@@ -29,34 +30,43 @@ const Auth = (props) => {
   }
   const styles = StyleSheet.create({
     container: {
-      paddingTop: 50,
       flex: 1,
-      alignItems : 'center',
-      justifyContent: 'center', 
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center'
     },
     button: {
       paddingTop: 15
     },
     userscreen: {
-      flex:1,
-      paddingTop: 120,
       fontSize: 18,
-      alignItems: 'center',
-      justifyContent: 'center', 
-      height: '100%',
-    }
+      textAlign: 'center',
+      paddingBottom: 50
+    },
   });
 
+  onPressLogout = async () => {
+    props.logout();
+  }
+
   return (
-    <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.container}>
               {props.isLoggedIn ? 
               <View style={styles.container}>
                 <Text style={styles.userscreen}>Welcome back, {props.customer.firstname} {props.customer.lastname}!</Text>
+                <Button
+                  onPress={el => onPressLogout()}
+                  title="Logout"
+                  color="#555"
+                  style={styles.logoutBtn}
+                  accessibilityLabel="Quit your account"
+                />
               </View>
 
-              : <View>
+              : 
+              <SafeAreaView>
+              <ScrollView contentInsetAdjustmentBehavior="automatic">
+              <View>
                   {showRegister ? null :
                   <View>
                       <TouchableOpacity onPress={el => swapScreen()}> 
@@ -80,10 +90,11 @@ const Auth = (props) => {
                   </View>
                 : null}
               </View>
+             </ScrollView>
+             </SafeAreaView>
               }
             </View>
-    </ScrollView>
-    </SafeAreaView>
+    
   );
 };
 const mapStateToProps = (state) => {
@@ -92,5 +103,11 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.customer.isLoggedIn,
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logoutUser())
+  }
+}
 
-export default connect(mapStateToProps)(Auth);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

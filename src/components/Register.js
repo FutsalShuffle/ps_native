@@ -72,9 +72,9 @@ const Register = (props) => {
           <View>
             <Button
               onPress={el => onPressRegister()}
-              title="Login"
+              title="Register"
               color="#841584"
-              accessibilityLabel="Press to login"
+              accessibilityLabel="Press to create account"
             />
           </View>
           <View>

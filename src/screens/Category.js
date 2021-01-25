@@ -76,6 +76,7 @@ const Category = (props) => {
                     }}
                     />
                     <Text>{product.name}</Text>
+                    <Text>{product.price} {Config.currency}</Text>
                     <Button
                       onPress={el => addToCart(product.id_product, product.id_product_attribute)}
                       title="Add to cart"

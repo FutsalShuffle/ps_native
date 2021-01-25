@@ -5,7 +5,7 @@ import AjaxProviderLogged from '../providers/AjaxProviderLogged';
 export const addToCart = (payload) => {
     return async dispatch  => {
         let addToCart = await AjaxProviderLogged('/racart?id_product='+payload.id_product+'&quantity=1&id_product_attribute='+payload.id_product_attribute+'&method=addToCart');
-        dispatch(dispatchGetCategories(addToCart));
+        dispatch(dispatchAddToCart(addToCart.cart));
     }
 }
 export const dispatchAddToCart = (payload) => (
@@ -14,3 +14,4 @@ export const dispatchAddToCart = (payload) => (
         payload: payload
     }
 );
+

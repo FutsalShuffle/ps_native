@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {verifyUser, loginUser, logoutUser} from '../actions/userManagement';
+import {loginUser} from '../actions/userManagement';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
@@ -29,10 +29,6 @@ const Login = (props) => {
     });
   }
 
-  onPressLogout = async () => {
-    props.logout();
-  }
-  
 
   return (
     <>
@@ -79,9 +75,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    verify: (payload) => dispatch(verifyUser(payload)),
     login: (payload) => dispatch(loginUser(payload)),
-    logout: () => dispatch(logoutUser())
   }
 }
 

@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Category from '../screens/Category';
 import Categories from '../screens/Categories';
 import Auth from '../screens/Auth';
+import Cart from '../screens/Cart';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -37,11 +38,21 @@ const UserStackScreen = props => {
       </CategoryStack.Navigator>
     );
 }
-
+const CartStackScreen = props => {
+  return (
+    <CategoryStack.Navigator>
+      <CategoryStack.Screen
+        name="Cart"
+        component={Cart}
+      />
+    </CategoryStack.Navigator>
+  );
+}
 const tabBar = props => (
       <Tab.Navigator>
         <Tab.Screen name="Profile" component={UserStackScreen} />
         <Tab.Screen name="Categories" component={CategoryStackScreen} />
+        <Tab.Screen name="Cart" component={CartStackScreen} />
       </Tab.Navigator>
 );
 
