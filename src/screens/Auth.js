@@ -31,30 +31,29 @@ const Auth = (props) => {
     container: {
       paddingTop: 50,
       flex: 1,
-      alignItems : 'center'
+      alignItems : 'center',
+      justifyContent: 'center', 
     },
     button: {
       paddingTop: 15
     },
     userscreen: {
       flex:1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: "#61dafb",
-      paddingTop: 50,
+      paddingTop: 120,
       fontSize: 18,
+      alignItems: 'center',
+      justifyContent: 'center', 
+      height: '100%',
     }
   });
 
   return (
     <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.container}>
               {props.isLoggedIn ? 
-              <View style={styles.userscreen}>
-                <Text>Welcome back, {props.customer.firstname} {props.customer.lastname}!</Text>
+              <View style={styles.container}>
+                <Text style={styles.userscreen}>Welcome back, {props.customer.firstname} {props.customer.lastname}!</Text>
               </View>
 
               : <View>
@@ -88,7 +87,6 @@ const Auth = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     customer: state.customer.customer,
     isLoggedIn: state.customer.isLoggedIn,
