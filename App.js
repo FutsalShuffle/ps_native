@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StatusBar, View
 } from 'react-native';
@@ -20,15 +20,15 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const App = (props) => {
-  const [customer, setCustomer] = useState([]);
-  const [errors, setErrors] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    props.verify();
+  }, []);
 
   return (
     <>
     <StatusBar barStyle="light-content" />
         <AppNavigator />
-   
     </>
   );
 };

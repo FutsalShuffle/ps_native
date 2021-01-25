@@ -78,7 +78,6 @@ const Register = (props) => {
             />
           </View>
           <View>
-            <Text>{props.customer ? props.customer.firstname : null}</Text>
             <Text>{props.errors ? props.errors : null}</Text>
           </View>
     </>

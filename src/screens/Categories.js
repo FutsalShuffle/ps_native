@@ -16,14 +16,8 @@ import {
 } from 'react-native';
 import Config from '../../Config';
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: 'white',
-  },
-});
 const Categories = ({route, navigation}) => {
   const [categoriesData, setCategories] = useState([]);
-  const [errors, setError] = useState('');
 
   const styles = StyleSheet.create({
     container: {
@@ -58,8 +52,7 @@ const Categories = ({route, navigation}) => {
         Config.API + '/categories'
       );
       let json = await response.json();
-      if (!json.success) setError(json[0]);
-      else setCategories(json.categories.children);
+      setCategories(json.categories.children);
     } catch (error) {
       console.error(error);
     }
@@ -68,8 +61,7 @@ const Categories = ({route, navigation}) => {
   return (
     <SafeAreaView>
         <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          contentInsetAdjustmentBehavior="automatic">
           <View>
               {
                 categoriesData.map(category => (

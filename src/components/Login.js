@@ -17,12 +17,10 @@ import {
 
 import {connect} from 'react-redux';
 import {verifyUser, loginUser, logoutUser} from '../actions/userManagement';
-import { useSelector } from 'react-redux'
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState('');
   
   const onPressLogin = async () => {
     props.login({
@@ -38,18 +36,6 @@ const Login = (props) => {
 
   return (
     <>
-    { props.isLoggedIn ? 
-    <View>
-      <Text>Welcome back, {props.customer.firstname} {props.customer.lastname}!</Text>
-      <Button
-              onPress={onPressLogout}
-              title="Logout"
-              color="#841584"
-              accessibilityLabel="Logout"
-            />
-    </View> 
-    
-    :
      <View>
         <View>
             <Text> Email* </Text>
@@ -80,8 +66,6 @@ const Login = (props) => {
             <Text>{props.errors ? props.errors : null}</Text>
           </View>
         </View>
-    }
-    
     </>
   );
 };
