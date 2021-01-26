@@ -13,7 +13,6 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  ShadowPropTypesIOS,
 } from 'react-native';
 import {connect} from 'react-redux';
 

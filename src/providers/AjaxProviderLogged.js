@@ -11,6 +11,9 @@ const AjaxProviderLogged = async (action) => {
           },
         }
       );
+      response2 = await response.clone();
+      response2 = await response2.text();
+      console.log(response2);
       let json = await response.json();
       return json;
     }catch (e) {

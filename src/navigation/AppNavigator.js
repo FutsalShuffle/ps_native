@@ -5,6 +5,7 @@ import Category from '../screens/Category';
 import Categories from '../screens/Categories';
 import Auth from '../screens/Auth';
 import Cart from '../screens/Cart';
+import Order from '../screens/Order';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -44,6 +45,10 @@ const CartStackScreen = props => {
       <CategoryStack.Screen
         name="Cart"
         component={Cart}
+      />
+    <CategoryStack.Screen
+        name="Order"
+        component={Order}
       />
     </CategoryStack.Navigator>
   );

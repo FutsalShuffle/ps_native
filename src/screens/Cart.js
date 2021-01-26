@@ -13,6 +13,7 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Button
 } from 'react-native';
 import {connect} from 'react-redux';
 import Config from '../../Config';
@@ -60,6 +61,12 @@ const Cart = (props) => {
                 }
                 <Text style={{paddingTop:50}}>Total: {calculateTotal()} {Config.currency}</Text>
             </View>
+            <Button
+                onPress={() => props.navigation.navigate('Order')}
+                title="Procceed with order"
+                color="#841584"
+                accessibilityLabel="place an order"
+              />
         </ScrollView>
     </SafeAreaView>
     : 
