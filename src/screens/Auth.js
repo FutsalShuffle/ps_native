@@ -20,6 +20,7 @@ import {connect} from 'react-redux';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import {logoutUser} from '../actions/userManagement';
+import { Container, Content } from 'native-base';
 
 const Auth = (props) => {
   const [showRegister, setShowRegister] = useState(0);
@@ -30,10 +31,12 @@ const Auth = (props) => {
   }
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 10,
       justifyContent: 'center',
       alignItems: 'center',
-      textAlign: 'center'
+      textAlign: 'center',
+      height:100,
+      flexGrow:2,
     },
     button: {
       paddingTop: 15
@@ -50,7 +53,8 @@ const Auth = (props) => {
   }
 
   return (
-            <View style={styles.container}>
+            <Container style={{paddingTop:20}}>
+              <Content>
               {props.isLoggedIn ? 
               <View style={styles.container}>
                 <Text style={styles.userscreen}>Welcome back, {props.customer.firstname} {props.customer.lastname}!</Text>
@@ -72,12 +76,10 @@ const Auth = (props) => {
                       <TouchableOpacity onPress={el => swapScreen()}> 
                           <Text>Don't have an account yet? Register now!</Text> 
                       </TouchableOpacity>
-                      <View>
-                          <Text>Login</Text>
+                      
+                        <Login/>
 
-                          <Login/>
-
-                      </View>
+                      
                   </View>
                 }
                 {showRegister ? 
@@ -85,7 +87,7 @@ const Auth = (props) => {
                       <TouchableOpacity onPress={el => swapScreen()}> 
                           <Text>Have an account already? Login instead!</Text> 
                       </TouchableOpacity>
-                      <Text>Register</Text>
+                      
                       <Register/>
                   </View>
                 : null}
@@ -93,7 +95,8 @@ const Auth = (props) => {
              </ScrollView>
              </SafeAreaView>
               }
-            </View>
+            </Content>
+        </Container>
     
   );
 };

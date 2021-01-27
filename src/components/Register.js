@@ -8,12 +8,11 @@
 
 import React, { useState } from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   TextInput,
-  Button
 } from 'react-native';
+import { Container, Button, Content, Form, Item, Input, Label } from 'native-base';
 
 import {connect} from 'react-redux';
 import {registerUser} from '../actions/userManagement';
@@ -36,50 +35,37 @@ const Register = (props) => {
   }
   return (
     <>
-        <View>
-            <Text> Firstname* </Text>
-            <TextInput
-              placeholder=""
-              onChangeText={text => setFirstname(text)}
-              style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-            />
-        </View>
-        <View>
-            <Text> Lastname* </Text>
-            <TextInput
-              placeholder=""
-              onChangeText={text => setLastname(text)}
-              style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-            />
-        </View>
-        <View>
-            <Text> Email* </Text>
-            <TextInput
-              placeholder="your@email.com"
-              onChangeText={text => setEmail(text)}
-              style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-            />
-          </View>
-          <View>
-              <Text> Password* </Text>
-              <TextInput
-                  placeholder="Password"
-                  onChangeText={text => setPassword(text)}
-                  secureTextEntry={true}
-                  style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-              />
-          </View>
-          <View>
-            <Button
-              onPress={el => onPressRegister()}
-              title="Register"
-              color="#841584"
-              accessibilityLabel="Press to create account"
-            />
-          </View>
-          <View>
+          <Form style={{paddingTop:10}}>
+            <Item fixedLabel>
+              <Label>Firstname *</Label>
+                <Input 
+                onChangeText={text => setFirstname(text)} />
+            </Item>
+            <Item fixedLabel>
+              <Label>Lastname *</Label>
+              <Input 
+              onChangeText={text => setLastname(text)} />
+            </Item>
+            <Item fixedLabel>
+              <Label>Email *</Label>
+              <Input 
+              onChangeText={text => setEmail(text)} />
+            </Item>
+            <Item fixedLabel>
+              <Label>Password *</Label>
+              <Input secureTextEntry={true}
+              onChangeText={text => setPassword(text)} />
+            </Item>
+
+            
+
+            <Button style={{marginTop:25}} onPress={el => onPressRegister()} block info>
+                <Text>Register</Text>
+            </Button>
+
             <Text>{props.errors ? props.errors : null}</Text>
-          </View>
+
+      </Form>
     </>
   );
 };

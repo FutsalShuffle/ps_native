@@ -9,11 +9,9 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  View,
   Text,
-  TextInput,
-  Button
 } from 'react-native';
+import {  Button, Form, Item, Input, Label } from 'native-base';
 
 import {connect} from 'react-redux';
 import {loginUser} from '../actions/userManagement';
@@ -31,38 +29,27 @@ const Login = (props) => {
 
 
   return (
-    <>
-     <View>
-        <View>
-            <Text> Email* </Text>
-            <TextInput
-              placeholder="your@email.com"
-              onChangeText={text => setEmail(text)}
-              style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-            />
-          </View>
-          <View>
-              <Text> Password* </Text>
-              <TextInput
-                  placeholder="Password"
-                  onChangeText={text => setPassword(text)}
-                  secureTextEntry={true}
-                  style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-              />
-          </View>
-          <View>
-            <Button
-              onPress={onPressLogin}
-              title="Login"
-              color="#841584"
-              accessibilityLabel="Press to login"
-            />
-          </View>
-          <View>
+ 
+          <Form style={{paddingTop:10}}>
+            <Item fixedLabel>
+              <Label>Email*</Label>
+              <Input 
+              onChangeText={text => setEmail(text)} />
+            </Item>
+            <Item fixedLabel>
+              <Label>Password*</Label>
+              <Input 
+              onChangeText={text => setPassword(text)} />
+            </Item>
+
+            <Button style={{marginTop:25}} onPress={onPressLogin} block info>
+                <Text>Login</Text>
+            </Button>
+
             <Text>{props.errors ? props.errors : null}</Text>
-          </View>
-        </View>
-    </>
+
+          </Form>
+     
   );
 };
 

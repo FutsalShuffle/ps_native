@@ -58,6 +58,7 @@ const Category = (props) => {
       id_product: id_product,
       id_product_attribute: id_product_attribute,
     })
+    
   }
 
   return (

@@ -9,6 +9,7 @@ const cartReducer = (state = initialState, action) => {
     switch(action.type) {
         case ADD_TO_CART:
             if (action.payload) {
+                alert('added to cart!');
                 return  {
                     cart: action.payload,
                 }
