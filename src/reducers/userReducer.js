@@ -10,17 +10,14 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
     switch(action.type) {
         case VERIFY_USER:
-            if (action.payload.customer) {
+            if (action.payload !== null && action.payload.customer) {
                 return  {
                     ...state,
                     customer: action.payload.customer,
                     isLoggedIn: true
                 }
           } else {
-              return {
-                  ...state,
-                  errors: action.payload[0]
-              }
+              return state;
           }
         case LOGOUT_USER:
             localStorage.storeJwt('');
@@ -29,7 +26,7 @@ const userReducer = (state = initialState, action) => {
                 isLoggedIn: false,
             }
         case LOGIN_USER:
-                if (action.payload.customer) {
+                if (action.payload !== null && action.payload.customer) {
                     localStorage.storeJwt(action.payload.customer.token);
                     return  {
                         ...state,
@@ -43,7 +40,7 @@ const userReducer = (state = initialState, action) => {
                   }
               }
         case REGISTER_USER:
-            if (action.payload.customer) {
+            if (action.payload !== null && action.payload.customer) {
                 localStorage.storeJwt(action.payload.customer.token);
                 return  {
                     ...state,

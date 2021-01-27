@@ -36,7 +36,9 @@ const Order = (props) => {
 
   const onPressMakeOrder = async () => {
     let response = await AjaxProviderLogged('/pwexpressorder?city='+city+'&address='+address+'&phone='+phone+'&zipcode='+zipcode);
-    console.log(response);
+    if (response.success) {
+      alert('made an order!');
+    }
   }
 
   return (
