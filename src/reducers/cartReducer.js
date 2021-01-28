@@ -21,6 +21,11 @@ const cartReducer = (state = initialState, action) => {
               }
           }
         case GET_CART:
+            if (action.payload && action.payload.cart) {
+                return  {
+                    cart: action.payload,
+                }
+            }
             return state;
         default:
             return state;

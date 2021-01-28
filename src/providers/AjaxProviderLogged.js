@@ -11,8 +11,11 @@ const AjaxProviderLogged = async (action) => {
           },
         }
       );
-      let json = await response.json();
-      return json;
+      if (response.ok) {
+        let json = await response.json();
+        return json;
+      }
+      return null;
     }catch (e) {
         console.log(e);
     }

@@ -4,10 +4,12 @@ import {
 } from 'react-native';
 
 import AppNavigator from './src/navigation/AppNavigator';
-import {connect} from 'react-redux';
-import {verifyUser} from './src/actions/userManagement';
-import {getCategories} from './src/actions/categoryManagement';
+import { connect } from 'react-redux';
+import { verifyUser } from './src/actions/userManagement';
+import { getCart } from './src/actions/cartManagement';
+import { getCategories } from './src/actions/categoryManagement';
 import { Root, Spinner } from "native-base";
+import { getAvailableCountries } from './src/actions/orderManagement';
 
 
 const mapStateToProps = (state) => {
@@ -20,6 +22,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     verify: (payload) => dispatch(verifyUser(payload)),
     getCategories: () => dispatch(getCategories()),
+    getCart: () => dispatch(getCart()),
+    getAvailableCountries: () => dispatch(getAvailableCountries()),
   }
 }
 
@@ -30,10 +34,15 @@ const App = (props) => {
     async function initLoadApp() {
       await props.verify();
       await props.getCategories();
+      await props.getAvailableCountries();
       setIsLoaded(true);
     }
     initLoadApp()
   }, []);
+
+  useEffect(() => {
+    props.getCart();
+  }, [props.isLoggedIn]);
 
   return (
     <Root>
