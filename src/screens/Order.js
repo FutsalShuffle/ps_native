@@ -23,7 +23,7 @@ import { Container, Content, Form, Item, Picker } from 'native-base';
 const Order = (props) => {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(0);
   const [phone, setPhone] = useState('');
   const [zipcode, setZipcode] = useState('');
 
@@ -35,7 +35,7 @@ const Order = (props) => {
   });
 
   const onPressMakeOrder = async () => {
-    let response = await AjaxProviderLogged('/pwexpressorder?city='+city+'&address='+address+'&phone='+phone+'&zipcode='+zipcode);
+    let response = await AjaxProviderLogged('/pwexpressorder?city='+city+'&address='+address+'&phone='+phone+'&zipcode='+zipcode+'&country='+country);
     if (response.success) {
       alert('made an order!');
     }
@@ -57,26 +57,21 @@ const Order = (props) => {
                     />
                 </View>
                 <Form>
-                  {/* <Item picker>
+                  <Item picker>
                     <Picker
                       placeholder="Country"
                       selectedValue={country}
-                      //onValueChange={el => setCountry(el)}
+                      onValueChange={(el) => setCountry(el)}
                     >
                       {
                         props.availableCountries ?
-                        Array.from(props.availableCountries).map(country => (
-                          <Picker.Item label={props.availableCountries[country]['country']} value={props.availableCountries[country]['id_country']} />
+                        Object.values(props.availableCountries).map(country => (
+                          <Picker.Item key={country['id_country']} label={country['country']} value={country['id_country']} />
                         ))
                         : null
                       }
-                      <Picker.Item label="Wallet" value="key0" />
-                      <Picker.Item label="ATM Card" value="key1" />
-                      <Picker.Item label="Debit Card" value="key2" />
-                      <Picker.Item label="Credit Card" value="key3" />
-                      <Picker.Item label="Net Banking" value="key4" />
                     </Picker>
-                  </Item> */}
+                  </Item>
                   <View>
                     <Text> Zip code* </Text>
                       <TextInput
@@ -118,7 +113,6 @@ const Order = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  console.log(state.order.availableCountries);
   return {
     cart: state.cart.cart,
     availableCountries: state.order.availableCountries,

@@ -42,7 +42,7 @@ const Cart = (props) => {
   //аттрибут : attribute_small, название категории: category, название: product.name, кол-во в корзине: product.cart_quantity
   return (
     <View>
-    {props.cart.length ?
+    {props.cart && props.cart.length ?
     <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
