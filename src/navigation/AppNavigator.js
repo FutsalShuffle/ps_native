@@ -6,6 +6,7 @@ import Categories from '../screens/Categories';
 import Auth from '../screens/Auth';
 import Cart from '../screens/Cart';
 import Order from '../screens/Order';
+import Product from '../screens/Product';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Icon, Badge } from 'native-base';
 import {
@@ -29,6 +30,11 @@ const CategoryStackScreen = props => {
           name="Category"
           component={Category}
           options={{ tabBarLabel: 'Category' }}
+        />
+        <CategoryStack.Screen
+          name="Product"
+          component={Product}
+          options={{ tabBarLabel: 'Product' }}
         />
       </CategoryStack.Navigator>
     );

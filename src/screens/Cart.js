@@ -17,6 +17,7 @@ import {
 import {connect} from 'react-redux';
 import Config from '../../Config';
 import { Container, Content, List,Footer, ListItem, Text, Icon, Left, Right, Thumbnail, Body, Badge } from 'native-base';
+import {updateQty} from '../actions/cartManagement';
 
 const Cart = (props) => {
   const styles = StyleSheet.create({
@@ -62,9 +63,9 @@ const Cart = (props) => {
                             </Body>
                             <Right>
                               <View style={{flex:1,flexDirection:'row'}}>
-                                <Icon  style={{fontSize:32}} name="add-circle"/>
+                                <Icon style={{fontSize:32}} name="add-circle" onPress={() => props.updateQty('up', product)}/>
                                 <Text style={{fontSize:23}}>{product.cart_quantity}</Text>
-                                <Icon style={{fontSize:32}} name="remove-circle"/>
+                                <Icon style={{fontSize:32}} name="remove-circle" onPress={() => props.updateQty('down', product)}/>
                               </View>
                             </Right>
                           </ListItem>
@@ -96,5 +97,10 @@ const mapStateToProps = (state) => {
     cart: state.cart.cart.cart,
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateQty: (direction, payload) => dispatch(updateQty(direction, payload))
+  }
+}
 
-export default connect(mapStateToProps)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

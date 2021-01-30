@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image, StyleSheet,
@@ -17,8 +17,8 @@ import Config from '../../Config';
 import {getCategory} from '../actions/categoryManagement';
 import {addToCart} from '../actions/cartManagement';
 import {connect} from 'react-redux';
-
-import { Container, Content, Text } from 'native-base';
+import { useIsFocused } from "@react-navigation/native";
+import { Container, Content, Text, Spinner } from 'native-base';
 
 
 const styles = StyleSheet.create({
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
   },
 });
 const Category = (props) => {
-
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isFocused = useIsFocused();
 
   const styles = StyleSheet.create({
     container: {
@@ -54,12 +55,18 @@ const Category = (props) => {
   });
 
   useEffect(() => {
-    getProducts();
-  }, [props.route.params.id_category]);
+    let cleanupFunction = false;
+    async function initLoadCategory() {
+      if(!cleanupFunction) {
+        setIsLoaded(false);
+        await props.getCategory(props.route.params.id_category);
+        setIsLoaded(true);
+      }
+    }
+    initLoadCategory();
+    return () => cleanupFunction = true;
+  }, [isFocused]);
 
-   const getProducts = () => {
-    props.getCategory(props.route.params.id_category);
-  }
 
   const addToCart = async (id_product, id_product_attribute) => {
     props.addToCart({
@@ -72,10 +79,12 @@ const Category = (props) => {
   return (
     <Container>
         <Content>
+        {
+        isLoaded ?
         <SafeAreaView>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.container}>
-            {
+            { props.categoryProducts && props.categoryProducts !== undefined && props.categoryProducts.length ?
                   props.categoryProducts.map(product => (
                     <View style={styles.product} key={product.id_product}>
                         <Image 
@@ -84,7 +93,7 @@ const Category = (props) => {
                             uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
                         }}
                       />
-                        <Text>{product.name}</Text>
+                        <Text onPress={() => props.navigation.navigate('Product', { id_product: product.id_product })}>{product.name}</Text>
                         <Text>{product.price} {Config.currency}</Text>
                         <View>
                           <Button
@@ -96,10 +105,15 @@ const Category = (props) => {
                           </View>
                     </View>
                   ))
-                }
+                : null}
               </View>
               </ScrollView>
               </SafeAreaView>
+            :
+            <View style={{flex:100, alignItems:'center',justifyContent: 'center',flexGrow:2, height:100}}>
+              <Spinner color='green' />
+            </View>
+           }
           </Content> 
     </Container>
   );
