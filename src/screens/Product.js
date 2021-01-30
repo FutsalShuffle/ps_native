@@ -32,13 +32,13 @@ const Product = (props) => {
   useEffect(() => {
     let cleanupFunction = false;
     async function initLoadProduct() {
-      if(!cleanupFunction) {
         let product = await AjaxProvider('/product?id_product='+props.route.params.id_product);
         if (product && product.product) {
-          setProduct(product.product);
+          if(!cleanupFunction) {
+            setProduct(product.product);
+            setIsLoaded(true);
+          }
         }
-        setIsLoaded(true);
-      }
     }
     initLoadProduct();
     return () => cleanupFunction = true;

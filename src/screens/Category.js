@@ -58,13 +58,14 @@ const Category = (props) => {
   useEffect(() => {
     let cleanupFunction = false;
     async function initLoadCategory() {
-      if(!cleanupFunction) {
         let category = await AjaxProvider('/category?id_category='+props.route.params.id_category);
         if (category && category.products) {
-          setProducts(category.products);
-          setIsLoaded(true);
+          if(!cleanupFunction) {
+            setProducts(category.products);
+            setIsLoaded(true);
+          }
         }
-      }
+      
     }
     initLoadCategory();
     return () => cleanupFunction = true;
