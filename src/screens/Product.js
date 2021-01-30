@@ -18,24 +18,29 @@ import {addToCart} from '../actions/cartManagement';
 import {connect} from 'react-redux';
 import { useIsFocused } from "@react-navigation/native";
 import { Container, Content, Text, Spinner } from 'native-base';
+import AjaxProvider from '../providers/AjaxProvider';
+
 
 const Product = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const isFocused = useIsFocused();
+  const [product, setProduct] = useState([]);
   const styles = StyleSheet.create({
 
   });
 
   useEffect(() => {
     let cleanupFunction = false;
-    async function initProductPage() {
-      if (!cleanupFunction) {
-        setIsLoaded(false);
-        await props.getProduct(props.route.params.id_product);
+    async function initLoadProduct() {
+      if(!cleanupFunction) {
+        let product = await AjaxProvider('/product?id_product='+props.route.params.id_product);
+        if (product && product.product) {
+          setProduct(product.product);
+        }
         setIsLoaded(true);
       }
     }
-    initProductPage();
+    initLoadProduct();
     return () => cleanupFunction = true;
   }, [isFocused]);
 
@@ -68,15 +73,11 @@ const Product = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    currentProduct: state.categories.currentProduct,
-  }
-}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (payload) => dispatch(addToCart(payload)),
     getProduct: (payload) => dispatch(getProduct(payload)),
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default connect(null, mapDispatchToProps)(Product);

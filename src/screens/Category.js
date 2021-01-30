@@ -14,11 +14,11 @@ import {
   ScrollView, Button
 } from 'react-native';
 import Config from '../../Config';
-import {getCategory} from '../actions/categoryManagement';
 import {addToCart} from '../actions/cartManagement';
 import {connect} from 'react-redux';
 import { useIsFocused } from "@react-navigation/native";
 import { Container, Content, Text, Spinner } from 'native-base';
+import AjaxProvider from '../providers/AjaxProvider';
 
 
 const styles = StyleSheet.create({
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 const Category = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const isFocused = useIsFocused();
+  const [products, setProducts] = useState([]);
 
   const styles = StyleSheet.create({
     container: {
@@ -58,9 +59,11 @@ const Category = (props) => {
     let cleanupFunction = false;
     async function initLoadCategory() {
       if(!cleanupFunction) {
-        setIsLoaded(false);
-        await props.getCategory(props.route.params.id_category);
-        setIsLoaded(true);
+        let category = await AjaxProvider('/category?id_category='+props.route.params.id_category);
+        if (category && category.products) {
+          setProducts(category.products);
+          setIsLoaded(true);
+        }
       }
     }
     initLoadCategory();
@@ -84,8 +87,8 @@ const Category = (props) => {
         <SafeAreaView>
           <ScrollView contentInsetAdjustmentBehavior="automatic">
             <View style={styles.container}>
-            { props.categoryProducts && props.categoryProducts !== undefined && props.categoryProducts.length ?
-                  props.categoryProducts.map(product => (
+            { products && products !== undefined ?
+                  products.map(product => (
                     <View style={styles.product} key={product.id_product}>
                         <Image 
                         style={styles.tinyLogo}
@@ -118,15 +121,10 @@ const Category = (props) => {
     </Container>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    categoryProducts: state.categories.category,
-  }
-}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (payload) => dispatch(addToCart(payload)),
-    getCategory: (payload) => dispatch(getCategory(payload)),
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Category);
+export default connect(null, mapDispatchToProps)(Category);
