@@ -9,7 +9,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   SafeAreaView,
   ScrollView,
@@ -17,6 +16,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import Config from '../../Config';
+import { Container, Content, List,Footer, ListItem, Text, Icon, Left, Right, Thumbnail, Body, Badge } from 'native-base';
 
 const Cart = (props) => {
   const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ const Cart = (props) => {
     },
     productName: {
       fontSize: 16,
-    }
+    },
   });
 
   const calculateTotal = () => {
@@ -41,40 +41,54 @@ const Cart = (props) => {
 
   //аттрибут : attribute_small, название категории: category, название: product.name, кол-во в корзине: product.cart_quantity
   return (
-    <View>
-    {props.cart && props.cart.length ?
-    <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic">
-            <View style={styles.container}>
-                { 
-                  props.cart.map(product => (
-                    <View key={product.name}>
-                      <Text style={styles.productName}>{product.name} {product.price_with_reduction}{Config.currency}x{product.cart_quantity}</Text>
-                      <View
-                        style={{
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                      }}/>
-                    </View>
-                  ))
-                }
-                <Text style={{paddingTop:50}}>Total: {calculateTotal()} {Config.currency}</Text>
-            </View>
-            <Button
-                onPress={() => props.navigation.navigate('Order')}
-                title="Procceed with order"
-                color="#841584"
-                accessibilityLabel="place an order"
-              />
-        </ScrollView>
-    </SafeAreaView>
-    : 
-    <View style={styles.container}>
-      <Text>Your cart is empty</Text> 
-    </View>
-    }
-    </View>            
+    <Container>
+      <Content>
+         {props.cart && props.cart.length ?
+         <View>
+          <SafeAreaView>
+              <ScrollView
+                contentInsetAdjustmentBehavior="automatic">
+                  <List>
+                      { 
+                        props.cart.map(product => (
+                          <ListItem avatar key={product.id_product+'_'+product.id_product_attribute}>
+                              <Left>
+                                 <Thumbnail source={{ uri: 'http://lelerestapi.na4u.ru/'+product.id_product+'-cart_default/'+product.link_rewrite+'.jpg' }} />
+                            </Left>
+                            <Body>
+                              <Text>{product.name}</Text>
+                              {product.attributes_small?<Text style={{color:'gray'}}>{product.attributes_small}</Text>:null}
+                              <Badge success><Text>{product.price_with_reduction} {Config.currency}</Text></Badge>
+                            </Body>
+                            <Right>
+                              <View style={{flex:1,flexDirection:'row'}}>
+                                <Icon  style={{fontSize:32}} name="add-circle"/>
+                                <Text style={{fontSize:23}}>{product.cart_quantity}</Text>
+                                <Icon style={{fontSize:32}} name="remove-circle"/>
+                              </View>
+                            </Right>
+                          </ListItem>
+                        ))
+                      } 
+                  </List>
+              </ScrollView>
+          </SafeAreaView>
+          <View style={{flex:1,alignContent:'center', backgroundColor: '#1ff',justifyContent: 'center', alignItems: 'center', marginTop:15, height:80 }}>
+            <Text>Total: {calculateTotal()} {Config.currency}</Text>
+              <Button
+                  onPress={() => props.navigation.navigate('Order')}
+                  title="Procceed with order"
+                  color="#ffffff"
+                  accessibilityLabel="place an order"/>
+          </View>
+          </View>
+        : 
+        <View style={styles.container}>
+          <Text>Your cart is empty</Text> 
+        </View>
+        }
+    </Content>
+    </Container>            
   );
 };
 const mapStateToProps = (state) => {

@@ -10,40 +10,34 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
+  View
 } from 'react-native';
-import { Container, Content, List, ListItem, Text } from 'native-base';
+import { Container, Content, List, ListItem, Text, Icon, Left, Right } from 'native-base';
 import {connect} from 'react-redux';
 
 const Categories = (props) => {
 
 
   return (
-    <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic">
-                <Container>
-                  <Content>
-                        { props.categories.map(category => (
-                            <List key={category.id}>
-                            <ListItem itemHeader>
-                              <Text onPress={() =>
-                                  props.navigation.navigate('Category', { id_category: category.id })}>
-                                    {category.name}</Text>
-                              </ListItem> 
-                              {category.children.map(subcategory => (
-                                  <ListItem key={subcategory.id}>
-                                    <Text
-                                      onPress={() => props.navigation.navigate('Category', { id_category: subcategory.id })}
-                                      >{subcategory.name}</Text>
-                                  </ListItem>
-                              ))} 
-                             </List>
-                             ))
-                          }
-                </Content>
-              </Container>
-          </ScrollView>
-      </SafeAreaView>
+      <Container>
+        <Content>
+          <List>
+              { props.categories.map(category => (
+                  <View key={category.id}>
+                  <ListItem itemDivider button onPress={() => props.navigation.navigate('Category', { id_category: category.id })}>
+                      <Text style={{fontSize: 23}}>{category.name}</Text>
+                    </ListItem> 
+                    {category.children.map(subcategory => (
+                        <ListItem button key={subcategory.id} onPress={() => props.navigation.navigate('Category', { id_category: subcategory.id })}>
+                          <Text>{subcategory.name}</Text>
+                        </ListItem>
+                    ))} 
+                  </View>
+                  ))
+                }
+              </List>
+        </Content>
+    </Container>
   );
 };
 const mapStateToProps = (state) => {

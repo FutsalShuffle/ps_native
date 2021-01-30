@@ -7,6 +7,11 @@ import Auth from '../screens/Auth';
 import Cart from '../screens/Cart';
 import Order from '../screens/Order';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Icon, Badge } from 'native-base';
+import {
+  View,
+  Text
+} from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,9 +60,21 @@ const CartStackScreen = props => {
 }
 const tabBar = props => (
       <Tab.Navigator>
-        <Tab.Screen name="Profile" component={UserStackScreen} />
-        <Tab.Screen name="Categories" component={CategoryStackScreen} />
-        <Tab.Screen name="Cart" component={CartStackScreen} />
+        <Tab.Screen name="Profile" component={UserStackScreen} options={{
+          tabBarIcon: ({color}) => (
+            <Icon name='person'/>
+          ),
+        }} />
+        <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
+          tabBarIcon: ({color}) => (
+            <Icon name='book'/>
+          ),
+        }}/>
+        <Tab.Screen name="Cart"  component={CartStackScreen} options={{
+          tabBarIcon: ({color}) => (
+            <Icon name='cart'/>
+          ),
+        }} />
       </Tab.Navigator>
 );
 

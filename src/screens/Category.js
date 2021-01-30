@@ -6,19 +6,19 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
-  Text,
-  Button,
   Image, StyleSheet,
   SafeAreaView,
-  ScrollView,
+  ScrollView, Button
 } from 'react-native';
 import Config from '../../Config';
 import {getCategory} from '../actions/categoryManagement';
 import {addToCart} from '../actions/cartManagement';
 import {connect} from 'react-redux';
+
+import { Container, Content, Text } from 'native-base';
 
 
 const styles = StyleSheet.create({
@@ -31,18 +31,26 @@ const Category = (props) => {
 
   const styles = StyleSheet.create({
     container: {
-      paddingTop: 50,
       flex: 1,
-      alignItems : 'center'
+      flexDirection: 'row',
+      flexWrap:'wrap',
     },
     tinyLogo: {
-      width: 100,
-      height: 100,
+      width: '100%',
+      height: '65%',
+      resizeMode: 'cover'
+      
     },
     logo: {
       width: 66,
       height: 58,
     },
+    product: {
+      width: '50%',
+      height: 300,
+      padding: 15,
+      textAlign: 'center',
+    }
   });
 
   useEffect(() => {
@@ -62,34 +70,38 @@ const Category = (props) => {
   }
 
   return (
-    <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View>
-              {
-                props.categoryProducts.map(product => (
-                  <View key={product.id_product} style={styles.container}>
-                    <Image 
-                    style={styles.tinyLogo}
-                    source={{
-                        uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
-                    }}
-                    />
-                    <Text>{product.name}</Text>
-                    <Text>{product.price} {Config.currency}</Text>
-                    <Button
-                      onPress={el => addToCart(product.id_product, product.id_product_attribute)}
-                      title="Add to cart"
-                      color="#841584"
-                      accessibilityLabel="Add to cart"
-                    />
-                  </View>
-                ))
-              }
+    <Container>
+        <Content>
+        <SafeAreaView>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View style={styles.container}>
+            {
+                  props.categoryProducts.map(product => (
+                    <View style={styles.product} key={product.id_product}>
+                        <Image 
+                        style={styles.tinyLogo}
+                        source={{
+                            uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
+                        }}
+                      />
+                        <Text>{product.name}</Text>
+                        <Text>{product.price} {Config.currency}</Text>
+                        <View>
+                          <Button
+                            onPress={el => addToCart(product.id_product, product.id_product_attribute)}
+                            title="Add to cart"
+                            color="green"
+                            accessibilityLabel="Add to cart"
+                            />
+                          </View>
+                    </View>
+                  ))
+                }
               </View>
-          </ScrollView>
-      </SafeAreaView>
+              </ScrollView>
+              </SafeAreaView>
+          </Content> 
+    </Container>
   );
 };
 const mapStateToProps = (state) => {
