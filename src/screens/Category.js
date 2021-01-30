@@ -61,6 +61,7 @@ const Category = (props) => {
         let category = await AjaxProvider('/category?id_category='+props.route.params.id_category);
         if (category && category.products) {
           if(!cleanupFunction) {
+            if (category.category.name[1]) props.navigation.setOptions({ title: category.category.name[1] });
             setProducts(category.products);
             setIsLoaded(true);
           }

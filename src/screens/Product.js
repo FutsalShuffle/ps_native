@@ -35,6 +35,7 @@ const Product = (props) => {
         let product = await AjaxProvider('/product?id_product='+props.route.params.id_product);
         if (product && product.product) {
           if(!cleanupFunction) {
+            props.navigation.setOptions({ title: product.product.name });
             setProduct(product.product);
             setIsLoaded(true);
           }
