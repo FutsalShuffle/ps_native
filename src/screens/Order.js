@@ -13,12 +13,14 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  Button,
   TextInput
 } from 'react-native';
 import {connect} from 'react-redux';
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
-import { Container, Content, Form, Item, Picker } from 'native-base';
+import { Container, Content, Form, Item, Picker, Input, Label, Button, Left } from 'native-base';
+import { getCart } from '../actions/cartManagement';
+
+
 
 const Order = (props) => {
   const [city, setCity] = useState('');
@@ -39,6 +41,7 @@ const Order = (props) => {
     if (response.success) {
       alert('made an order!');
     }
+    props.getCart();
   }
 
   return (
@@ -47,17 +50,18 @@ const Order = (props) => {
         <SafeAreaView>
             <ScrollView
               contentInsetAdjustmentBehavior="automatic">
-                <View style={styles.container}>
-                <View>
-                  <Text> City* </Text>
-                    <TextInput
-                        placeholder="City"
-                        onChangeText={text => setCity(text)}
-                        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                    />
-                </View>
-                <Form>
+                <Form style={styles.container}>
+                <Item fixedLabel>
+                  <Label>City*</Label>
+                    <Input 
+                    onChangeText={text => setCity(text)} />
+                </Item>
+
                   <Item picker>
+                    <Left>
+                        <Text style={{paddingLeft:15, color:'lightgray',fontSize:16}}>Country*</Text>
+                    </Left>
+                 
                     <Picker
                       placeholder="Country"
                       selectedValue={country}
@@ -72,40 +76,27 @@ const Order = (props) => {
                       }
                     </Picker>
                   </Item>
-                  <View>
-                    <Text> Zip code* </Text>
-                      <TextInput
-                          placeholder="Zip code"
-                          onChangeText={text => setZipcode(text)}
-                          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                      />
-                  </View>
-                  <View>
-                    <Text> Address* </Text>
-                      <TextInput
-                          placeholder="Address"
-                          onChangeText={text => setAddress(text)}
-                          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                      />
-                  </View>
-                  <View>
-                    <Text> Phone number* </Text>
-                      <TextInput
-                          placeholder="Phone number"
-                          onChangeText={text => setPhone(text)}
-                          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                      />
-                  </View>
-                  <View style={{flex: 4, paddintTop:15}}>
-                    <Button
-                      onPress={el => onPressMakeOrder()}
-                      title="Place your order"
-                      color="#841584"
-                      accessibilityLabel="Press to place an order"
-                    />
-                  </View>
-                </Form>
-                </View>
+                 
+                  <Item fixedLabel>
+                    <Label>Zip code*</Label>
+                      <Input 
+                      onChangeText={text => setZipcode(text)} />
+                  </Item>
+                  <Item fixedLabel>
+                    <Label>Address*</Label>
+                      <Input 
+                      onChangeText={text => setAddress(text)} />
+                  </Item>
+                  <Item fixedLabel>
+                    <Label>Phone number*</Label>
+                      <Input 
+                      onChangeText={text => setPhone(text)} />
+                  </Item>
+                  
+                    <Button style={{marginTop:15}} full rounded success
+                      onPress={() => onPressMakeOrder()}><Text>Place an order</Text></Button>
+                  
+                  </Form>
             </ScrollView>
         </SafeAreaView>
         </Content>
@@ -118,5 +109,10 @@ const mapStateToProps = (state) => {
     availableCountries: state.order.availableCountries,
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCart: () => dispatch(getCart())
+  }
+}
 
-export default connect(mapStateToProps)(Order);
+export default connect(mapStateToProps, mapDispatchToProps)(Order);
