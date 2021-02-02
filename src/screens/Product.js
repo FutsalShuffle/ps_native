@@ -45,7 +45,7 @@ const Product = (props) => {
     loadSpinner: {
      flex:100, 
      alignItems:'center',
-     ustifyContent: 'center',
+     justifyContent: 'center',
      flexGrow:2, 
      height:100
     }
