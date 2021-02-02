@@ -74,7 +74,7 @@ const Product = (props) => {
   const addToCart = async (id_product, id_product_attribute) => {
     props.addToCart({
       id_product: id_product,
-      id_product_attribute: id_product_attribute,
+      id_product_attribute: id_product_attribute ? id_product_attribute : null,
     })
   }
 
@@ -98,7 +98,7 @@ const Product = (props) => {
               <Text style={styles.productPrice}>{parseFloat(product.price).toFixed(2)} {Config.currency}</Text>
               <Button
                 style={{flex:1, flexGrow:1}}
-                onPress={el => addToCart(product.id_product, product.id_product_attribute)}
+                onPress={el => addToCart(product.id, product.id_product_attribute)}
                 accessibilityLabel="Add to cart"
                 ><Text style={{width:'100%',textAlign:'center'}}>Add to cart</Text></Button>
             </View>
