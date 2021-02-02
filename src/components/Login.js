@@ -39,6 +39,7 @@ const Login = (props) => {
             <Item fixedLabel>
               <Label>Password*</Label>
               <Input 
+              secureTextEntry={true}
               onChangeText={text => setPassword(text)} />
             </Item>
 
