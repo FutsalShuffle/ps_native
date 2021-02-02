@@ -8,12 +8,10 @@
 
 import React, {useState} from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  TextInput
 } from 'react-native';
 import {connect} from 'react-redux';
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
@@ -51,6 +49,7 @@ const Order = (props) => {
             <ScrollView
               contentInsetAdjustmentBehavior="automatic">
                 <Form style={styles.container}>
+
                 <Item fixedLabel>
                   <Label>City*</Label>
                     <Input 

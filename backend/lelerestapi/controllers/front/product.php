@@ -39,7 +39,7 @@ class LelerestapiProductModuleFrontController extends ModuleFrontController
         }
         $this->result['success'] = 1;
         $this->result['product'] = $product;
-        $this->result['images'] = $product->getImages($this->context->language->id);
+        $this->result['images'] = Image::getImages($this->context->language->id, $product->id);
         return $this->ajaxDie(Tools::jsonEncode($this->result));
     }
     

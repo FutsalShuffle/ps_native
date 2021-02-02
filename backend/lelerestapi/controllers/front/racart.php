@@ -19,8 +19,10 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
         parent::__construct();
         $this->user = MainRestApi::validateUser();
         $this->method = Tools::getValue('method');
+        $this->context->language = new Language((int)$id_lang);
         if (!$this->user['cart_id']) $this->ajaxDie(Tools::jsonEncode('Not Allowed'));
         if (!$this->method) $this->ajaxDie(Tools::jsonEncode('Not Allowed'));
+        $this->context->cart = new Cart((int)$this->user['cart_id']);
     }
 
     public function display()
@@ -71,7 +73,29 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
     }
 
     public function getAvailableCarriers() {
-        return;
+        $carriers = array();
+        $availableCarriers = array();
+        $allCarriers = Carrier::getCarriers($this->context->language->id, true, false, false, null, Carrier::ALL_CARRIERS); //all deliveries
+
+        $country = new Country($this->form_values['address']->id_country);
+        $delivery_option_list = $this->context->cart->getDeliveryOptionList(null, true);
+        if(!empty($delivery_option_list) && is_array($delivery_option_list)){
+            foreach (reset($delivery_option_list) as $key => $option) {
+                foreach ($option['carrier_list'] as $carrier) {
+                    $price = $this->context->cart->getPackageShippingCost((int)$carrier['instance']->id, true, null, null, $country->id_zone);
+                    $availableCarriers[] = $carrier['instance']->id; //deliveries available for current address
+
+                }
+            }
+        }
+        foreach($allCarriers as $carrier){
+            $price = $this->context->cart->getPackageShippingCost((int)$carrier['id_carrier'], true, null, null, $country->id_zone);
+            $carrier['price'] = ($price == 0)?$this->l('Free'):Tools::displayPrice($price);
+            $carrier['available'] = in_array($carrier['id_carrier'], $availableCarriers);
+            if($carrier['available']){
+                $carriers[] = $carrier;
+            }
+        }
     }
 
     public function updateQuantity() {

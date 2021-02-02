@@ -24,7 +24,6 @@ import { Container, Content } from 'native-base';
 
 const Auth = (props) => {
   const [showRegister, setShowRegister] = useState(0);
-
   const swapScreen = () => {
       if (!showRegister) setShowRegister(1);
       if (showRegister) setShowRegister(0);
@@ -66,7 +65,6 @@ const Auth = (props) => {
                   accessibilityLabel="Quit your account"
                 />
               </View>
-
               : 
               <SafeAreaView>
               <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -76,10 +74,9 @@ const Auth = (props) => {
                       <TouchableOpacity onPress={el => swapScreen()}> 
                           <Text>Don't have an account yet? Register now!</Text> 
                       </TouchableOpacity>
-                      
+
                         <Login/>
 
-                      
                   </View>
                 }
                 {showRegister ? 
@@ -89,6 +86,7 @@ const Auth = (props) => {
                       </TouchableOpacity>
                       
                       <Register/>
+                      
                   </View>
                 : null}
               </View>
@@ -97,7 +95,6 @@ const Auth = (props) => {
               }
             </Content>
         </Container>
-    
   );
 };
 const mapStateToProps = (state) => {

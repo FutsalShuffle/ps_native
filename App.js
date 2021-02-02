@@ -34,7 +34,6 @@ const App = (props) => {
     async function initLoadApp() {
       await props.verify();
       await props.getCategories();
-      await props.getAvailableCountries();
       setIsLoaded(true);
     }
     initLoadApp()
@@ -42,6 +41,7 @@ const App = (props) => {
 
   useEffect(() => {
     props.getCart();
+    props.getAvailableCountries();
   }, [props.isLoggedIn]);
 
   return (
