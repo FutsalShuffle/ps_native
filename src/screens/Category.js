@@ -6,20 +6,22 @@
  * @flow strict-local
  */
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
-  Image, StyleSheet,
+  Image,
+  StyleSheet,
   SafeAreaView,
-  ScrollView, Button
+  ScrollView,
+  Button,
 } from 'react-native';
 import Config from '../../Config';
 import {addToCart} from '../actions/cartManagement';
 import {connect} from 'react-redux';
-import { useIsFocused } from "@react-navigation/native";
-import { Container, Content, Text, Spinner } from 'native-base';
+import {useIsFocused} from '@react-navigation/native';
+import {Container, Content, Text, Spinner} from 'native-base';
 import AjaxProvider from '../providers/AjaxProvider';
-
+import ProductMiniatureContainer from '../components/Product/ProductMiniature/ProductMiniatureContainer';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -35,13 +37,12 @@ const Category = (props) => {
     container: {
       flex: 1,
       flexDirection: 'row',
-      flexWrap:'wrap',
+      flexWrap: 'wrap',
     },
     tinyLogo: {
       width: '100%',
       height: '65%',
-      resizeMode: 'cover'
-      
+      resizeMode: 'cover',
     },
     logo: {
       width: 66,
@@ -52,74 +53,67 @@ const Category = (props) => {
       height: 300,
       padding: 15,
       textAlign: 'center',
-    }
+    },
   });
 
   useEffect(() => {
     let cleanupFunction = false;
     async function initLoadCategory() {
-        let category = await AjaxProvider('/category?id_category='+props.route.params.id_category);
-        if (category && category.products) {
-          if(!cleanupFunction) {
-            if (category.category.name[1]) props.navigation.setOptions({ title: category.category.name[1] });
-            setProducts(category.products);
-            setIsLoaded(true);
-          }
+      let category = await AjaxProvider(
+        '/category?id_category=' + props.route.params.id_category,
+      );
+      if (category && category.products) {
+        if (!cleanupFunction) {
+          if (category.category.name[1])
+            props.navigation.setOptions({title: category.category.name[1]});
+          setProducts(category.products);
+          setIsLoaded(true);
         }
-      
+      }
     }
     initLoadCategory();
-    return () => cleanupFunction = true;
+    return () => (cleanupFunction = true);
   }, [isFocused]);
-
 
   const addToCart = async (id_product, id_product_attribute) => {
     props.addToCart({
       id_product: id_product,
       id_product_attribute: id_product_attribute,
-    })
-    
-  }
+    });
+  };
 
   return (
     <Container>
-        <Content>
-        {
-        isLoaded ?
-        <SafeAreaView>
-          <ScrollView contentInsetAdjustmentBehavior="automatic">
-            <View style={styles.container}>
-            { products && products !== undefined ?
-                  products.map(product => (
-                    <View style={styles.product} key={product.id_product}>
-                        <Image 
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
-                        }}
+      <Content>
+        {isLoaded ? (
+          <SafeAreaView>
+            <ScrollView contentInsetAdjustmentBehavior="automatic">
+              <View style={styles.container}>
+                {products && products !== undefined
+                  ? products.map((product) => (
+                      <ProductMiniatureContainer
+                        key={product.id_product}
+                        navigation={props.navigation}
+                        product={product}
                       />
-                        <Text onPress={() => props.navigation.navigate('Product', { id_product: product.id_product })}>{product.name}</Text>
-                        <Text>{product.price} {Config.currency}</Text>
-                        <View>
-                          <Button
-                            onPress={el => addToCart(product.id_product, product.id_product_attribute)}
-                            title="Add to cart"
-                            color="green"
-                            accessibilityLabel="Add to cart"
-                            />
-                          </View>
-                    </View>
-                  ))
-                : null}
+                    ))
+                  : null}
               </View>
-              </ScrollView>
-              </SafeAreaView>
-            :
-            <View style={{flex:100, alignItems:'center',justifyContent: 'center',flexGrow:2, height:100}}>
-              <Spinner color='green' />
-            </View>
-           }
-          </Content> 
+            </ScrollView>
+          </SafeAreaView>
+        ) : (
+          <View
+            style={{
+              flex: 100,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexGrow: 2,
+              height: 100,
+            }}>
+            <Spinner color="green" />
+          </View>
+        )}
+      </Content>
     </Container>
   );
 };
@@ -127,6 +121,6 @@ const Category = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (payload) => dispatch(addToCart(payload)),
-  }
-}
+  };
+};
 export default connect(null, mapDispatchToProps)(Category);
