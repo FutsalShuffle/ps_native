@@ -54,7 +54,7 @@ const Cart = (props) => {
                         props.cart.map(product => (
                           <ListItem avatar key={product.id_product+'_'+product.id_product_attribute}>
                               <Left>
-                                 <Thumbnail source={{ uri: 'http://lelerestapi.na4u.ru/'+product.id_product+'-cart_default/'+product.link_rewrite+'.jpg' }} />
+                                 <Thumbnail source={{ uri: Config.baseURI+product.id_product+'-cart_default/'+product.link_rewrite+'.jpg' }} />
                             </Left>
                             <Body>
                               <Text>{product.name}</Text>

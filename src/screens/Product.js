@@ -82,7 +82,7 @@ const Product = (props) => {
     if (!images && images === undefined) return [];
     let imgarr = [];
     images.forEach((image => {
-      imgarr.push('http://lelerestapi.na4u.ru/'+image['id_image']+'-large_default/'+product.link_rewrite+'.jpg');
+      imgarr.push(Config.baseURI+image['id_image']+'-large_default/'+product.link_rewrite+'.jpg');
     }));
     return imgarr;
   }
