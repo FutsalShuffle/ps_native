@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     View,
     Image, StyleSheet,
-    Button
+    Button, TouchableHighlight
 } from 'react-native';
 import { Text } from 'native-base';
 import Config from '../../../../Config';
@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
       resizeMode: 'cover'
       
     },
+    image: {
+        height: '100%',
+    }, 
     logo: {
       width: 66,
       height: 58,
@@ -35,12 +38,18 @@ const styles = StyleSheet.create({
 const ProductMeniature = ({navigation, product, addToCart}) => {
     return (
         <View style={styles.product}>
-            <Image 
+            <TouchableHighlight 
+                onPress={() => navigation.navigate('Product', { id_product: product.id_product })}
                 style={styles.tinyLogo}
-                source={{
-                    uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
-                }}
-            />
+            >
+                <Image 
+                    style={styles.image}
+                    source={{
+                        uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
+                    }}
+                    
+                />
+            </TouchableHighlight>
             <Text onPress={() => navigation.navigate('Product', { id_product: product.id_product })}>{product.name}</Text>
             <Text>{product.price} {Config.currency}</Text>
             <View>
