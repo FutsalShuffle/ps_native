@@ -71,8 +71,8 @@ class LelerestapiCustomPageModuleFrontController extends ModuleFrontController
             border-bottom: 1px solid #ddd;
         }
         </style>';
-       $result = ['success'=>1, 'html'=> utf8_encode(html_entity_decode(htmlspecialchars_decode($html . $css)))];
+       $result = ['success'=>1, 'html'=> utf8_encode(html_entity_decode(htmlspecialchars_decode($html)))];
 
-       die(stripslashes(json_encode($result)));
+       die(json_encode($result));
     }
 }

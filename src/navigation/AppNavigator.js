@@ -72,9 +72,9 @@ const tabBar = props => (
             <Icon name='person'/>
           ),
         }} />
-        <Tab.Screen name="Index" component={Index} options={{
+        <Tab.Screen name="Home" component={Index} options={{
           tabBarIcon: ({color}) => (
-            <Icon name='book'/>
+            <Icon name='home'/>
           ),
         }}/>
         <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
