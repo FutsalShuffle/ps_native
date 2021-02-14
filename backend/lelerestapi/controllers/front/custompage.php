@@ -15,10 +15,7 @@ class LelerestapiCustomPageModuleFrontController extends ModuleFrontController
     public function display()
     {
         $html = Configuration::get('MOBILE_INDEX_HTML');
-        //$result = ['success'=>1, 'html'=> $html];
-        echo html_entity_decode(htmlspecialchars_decode($html));
-        echo '
-        <style>
+        $css = '<style>
         mark, .mark {
             background-color: yellow!important;
         }
@@ -74,6 +71,8 @@ class LelerestapiCustomPageModuleFrontController extends ModuleFrontController
             border-bottom: 1px solid #ddd;
         }
         </style>';
-       return;
+       $result = ['success'=>1, 'html'=> utf8_encode(html_entity_decode(htmlspecialchars_decode($html . $css)))];
+
+       die(stripslashes(json_encode($result)));
     }
 }

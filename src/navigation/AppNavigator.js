@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Category from '../screens/Category';
 import Categories from '../screens/Categories';
+import Index from '../screens/Index';
 import Auth from '../screens/Auth';
 import Cart from '../screens/Cart';
 import Order from '../screens/Order';
@@ -71,6 +72,11 @@ const tabBar = props => (
             <Icon name='person'/>
           ),
         }} />
+        <Tab.Screen name="Index" component={Index} options={{
+          tabBarIcon: ({color}) => (
+            <Icon name='book'/>
+          ),
+        }}/>
         <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
           tabBarIcon: ({color}) => (
             <Icon name='book'/>
