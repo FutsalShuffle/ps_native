@@ -19,7 +19,7 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
         parent::__construct();
         $this->user = MainRestApi::validateUser();
         $this->method = Tools::getValue('method');
-        $this->context->language = new Language((int)$id_lang);
+        $this->context->language = new Language((int)$this->id_lang);
         if (!$this->user['cart_id']) $this->ajaxDie(Tools::jsonEncode('Not Allowed'));
         if (!$this->method) $this->ajaxDie(Tools::jsonEncode('Not Allowed'));
         $this->context->cart = new Cart((int)$this->user['cart_id']);

@@ -95,7 +95,7 @@ const Category = (props) => {
                         <Image 
                         style={styles.tinyLogo}
                         source={{
-                            uri: 'http://lelerestapi.na4u.ru/'+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
+                            uri: Config.baseURI+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
                         }}
                       />
                         <Text onPress={() => props.navigation.navigate('Product', { id_product: product.id_product })}>{product.name}</Text>
