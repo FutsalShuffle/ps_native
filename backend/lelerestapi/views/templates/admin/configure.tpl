@@ -23,43 +23,113 @@
 *  International Registered Trademark & Property of PrestaShop SA
 *}
 
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/image"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/marker"></script>
+<script src="https://cdn.jsdelivr.net/npm/editorjs-parser@1/build/Parser.browser.min.js"></script>
+
 <div class="panel">
-	<div class="row moduleconfig-header">
-		<div class="col-xs-5 text-right">
-			<img src="{$module_dir|escape:'html':'UTF-8'}views/img/logo.jpg" />
-		</div>
-		<div class="col-xs-7 text-left">
-			<h2>{l s='Lorem' mod='lelerestapi'}</h2>
-			<h4>{l s='Lorem ipsum dolor' mod='lelerestapi'}</h4>
-		</div>
-	</div>
-
-	<hr />
-
-	<div class="moduleconfig-content">
-		<div class="row">
-			<div class="col-xs-12">
-				<p>
-					<h4>{l s='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor' mod='lelerestapi'}</h4>
-					<ul class="ul-spaced">
-						<li><strong>{l s='Lorem ipsum dolor sit amet' mod='lelerestapi'}</strong></li>
-						<li>{l s='Lorem ipsum dolor sit amet' mod='lelerestapi'}</li>
-						<li>{l s='Lorem ipsum dolor sit amet' mod='lelerestapi'}</li>
-						<li>{l s='Lorem ipsum dolor sit amet' mod='lelerestapi'}</li>
-						<li>{l s='Lorem ipsum dolor sit amet' mod='lelerestapi'}</li>
-					</ul>
-				</p>
-
-				<br />
-
-				<p class="text-center">
-					<strong>
-						<a href="http://www.prestashop.com" target="_blank" title="Lorem ipsum dolor">
-							{l s='Lorem ipsum dolor' mod='lelerestapi' }
-						</a>
-					</strong>
-				</p>
-			</div>
-		</div>
+<div class="row block">
+	<div class="col-md-12">
+		<form class='block-submit-form' id="editorjsForm" method="post">
+		<input type="hidden" id="mobile_index_json" value="asd" name="mobile_index_json">
+		<input type="hidden" id="mobile_index_html" value="asd" name="mobile_index_html">
+		<input type="hidden" id="submitLelerestapiModule" value="1" name="submitLelerestapiModule">
+				<div class="panel-body">
+					<div class="form-group">
+						<div style="max-width:700px;" id="editorjs" class="editorjs"></div>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary" value="Сохранить" id="saveEditorJs">
+					</div>		
+				</div>	
+		</form>
 	</div>
 </div>
+</div>
+
+<script>
+try {
+	var prev_json_data = JSON.parse('{$prev_json}');
+} catch (e) {
+	var prev_json_data = '';
+}
+
+
+const editor = new EditorJS({
+		holder: 'editorjs',
+		onReady: () => {
+			new DragDrop(editor)
+		},
+		data: prev_json_data,
+		tools: {
+			header: {
+				class: Header,
+				config: {
+					placeholder: 'Введите заголовок',
+					levels: [1, 2, 3],
+					defaultLevel: 2
+				},
+				
+			},
+			paragraph: {
+				class: Paragraph,
+				inlineToolbar: true,
+			},
+
+			embed: {
+				class: Embed,
+				inlineToolbar: true
+			},
+			// table: {
+			// 	class: Table,
+			// },		
+			image: {
+				class: ImageTool,
+				config: {
+					endpoints: {
+						byFile: '/modules/lelerestapi/upload.php', // Your backend file uploader endpoint
+						//byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+					}
+				}
+			},
+			list: {
+				class: List,
+				inlineToolbar: true,
+			},
+			delimiter: Delimiter,
+			marker: {
+				class: Marker,
+				shortcut: 'CTRL+SHIFT+M',
+			}
+
+		},
+	});
+
+let saveBtn = document.getElementById('saveEditorJs');
+saveBtn.addEventListener('click', function (e) {
+	e.preventDefault();
+	editor.save().then((outputData) => {
+
+		var data = outputData;
+		var form = document.getElementById('editorjsForm');
+		saveData(data, form);
+	}).catch((error) => {
+		console.log('Saving failed: ', error)
+	});
+});
+
+function saveData(data, form) {
+	var parser = new edjsParser();
+	var markup = parser.parse(data);
+	$('#mobile_index_html').val(markup);
+	$('#mobile_index_json').val(JSON.stringify(data));
+	$('#editorjsForm').submit();
+}
+
+</script>
