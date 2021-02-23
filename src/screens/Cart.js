@@ -59,7 +59,7 @@ const Cart = (props) => {
                             <Body>
                               <Text>{product.name}</Text>
                               {product.attributes_small?<Text style={{color:'gray'}}>{product.attributes_small}</Text>:null}
-                              <Badge success><Text>{product.price_with_reduction} {Config.currency}</Text></Badge>
+                              <Badge success><Text>{product.price_real} {Config.currency}</Text></Badge>
                             </Body>
                             <Right>
                               <View style={{flex:1,flexDirection:'row'}}>
