@@ -21,6 +21,9 @@ import AjaxProvider from '../providers/AjaxProvider';
 import { SliderBox } from "react-native-image-slider-box";
 import Config from '../../Config';
 import HTML from "react-native-render-html";
+import { Picker } from 'native-base';
+import CustomHtmlContainer from '../components/CustomHtmlContainer';
+
 
 
 const Product = (props) => {
@@ -29,6 +32,8 @@ const Product = (props) => {
   const [product, setProduct] = useState([]);
   const [images, setImages] = useState([]);
   const [isInFav, setInFav] = useState(false);
+  const [selectedCombination, setSelectedCombination] = useState(0);
+  const [productCombinations, setCombination] = useState([]);
   const styles = StyleSheet.create({
     productInfo: {
       flex:1,
@@ -60,6 +65,7 @@ const Product = (props) => {
         if (product && product.product) {
           if(!cleanupFunction) {
             props.navigation.setOptions({ title: product.product.name });
+            setCombination(product.combinations);
             setProduct(product.product);
             setImages(product.images);
             setIsLoaded(true);
@@ -87,6 +93,21 @@ const Product = (props) => {
     return imgarr;
   }
 
+  const getProductPrice = (price) => {
+    price = parseFloat(price);
+    if (!selectedCombination) {
+      setSelectedCombination(product['id_product_attribute']);
+    }
+    productCombinations.forEach(product2 => {
+      if (product2['id_product_attribute'] == selectedCombination) {
+        price += parseFloat(product2['price']);
+      }
+    })
+    if (price < 0) price = 0;
+ 
+    return price.toFixed(2);
+  }
+
   return (
     <Container>
       <Content>
@@ -94,17 +115,34 @@ const Product = (props) => {
         isLoaded ?
           <View>
             <SliderBox sliderBoxHeight={400} images={getImages()} />
+            {
+              productCombinations ?
+              <View style={styles.productInfo}>
+                <Picker
+                    selectedValue={selectedCombination}
+                    onValueChange={(el) => setSelectedCombination(el)}
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                  >
+                    {
+                      Object.values(productCombinations).map(combination => (
+                        <Picker.Item key={combination['id_product_attribute']} label={combination['attribute_designation']} value={combination['id_product_attribute']} />
+                      ))
+                    }
+                  </Picker>
+                  </View>
+            :null}
             <View style={styles.productInfo}>
-              <Text style={styles.productPrice}>{parseFloat(product.price).toFixed(2)} {Config.currency}</Text>
+              <Text style={styles.productPrice}>{getProductPrice(product.price)} {Config.currency}</Text>
               <Button
                 style={{flex:1, flexGrow:1}}
-                onPress={el => addToCart(product.id, product.id_product_attribute)}
+                onPress={el => addToCart(product.id, selectedCombination)}
                 accessibilityLabel="Add to cart"
                 ><Text style={{width:'100%',textAlign:'center'}}>Add to cart</Text></Button>
             </View>
               <Icon name="heart" style={{ color: isInFav ? 'red': 'gray', textAlign:'right', fontSize:32, paddingRight:15 }} />
             <View>
-              <HTML containerStyle={{padding: 15}} source={{html: product.description}} contentWidth={contentWidth} />
+                <CustomHtmlContainer html={product.description}/>
             </View>
           </View>
           : 
@@ -124,3 +162,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 export default connect(null, mapDispatchToProps)(Product);
+

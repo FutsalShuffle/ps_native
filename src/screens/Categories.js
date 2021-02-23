@@ -16,8 +16,6 @@ import { Container, Content, List, ListItem, Text, Icon, Left, Right } from 'nat
 import {connect} from 'react-redux';
 
 const Categories = (props) => {
-
-
   return (
       <Container>
         <Content>

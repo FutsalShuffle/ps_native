@@ -49,7 +49,11 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
         if (!empty($this->errors)) return false;
         $cart->updateQty($quantity, $id_product, $id_product_attribute);
         $this->success[] = 'Product was added to cart!';
-        $this->success['cart'] = $cart->getProducts();
+        $products = $cart->getProducts();
+        foreach ($products as $index=>$product) {
+            $products[$index]['price_real'] = Product::getPriceStatic((int) $product['id_product'], true, (int)$product['id_product_attribute']);
+        }
+        $this->success['cart'] = $products;
         return $cart;
     }
     
@@ -60,8 +64,13 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
      */
     public function getMyCart() {
         $cart = new Cart($this->user['cart_id']);
+        
+        $products = $cart->getProducts();
+        foreach ($products as $index=>$product) {
+            $products[$index]['price_real'] = Product::getPriceStatic((int) $product['id_product'], true, (int)$product['id_product_attribute']);
+        }
         $this->success['success'] = true;
-        $this->success['cart'] = $cart->getProducts();
+        $this->success['cart'] = $products;
         return $cart;
     }
 
@@ -113,8 +122,12 @@ class LelerestapiRACartModuleFrontController extends ModuleFrontController
             true,
             false
         )) {
+            $products = $cart->getProducts();
+            foreach ($products as $index=>$product) {
+                $products[$index]['price_real'] = Product::getPriceStatic((int) $product['id_product'], true, (int)$product['id_product_attribute']);
+            }
+            $this->success['cart'] = $products;
             $this->success['success'] = true;
-            $this->success['cart'] = $cart->getProducts();
         }
         else {
             $this->errors[] = "Error occured";

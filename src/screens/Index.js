@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import AjaxProvider from '../providers/AjaxProvider';
 import CustomHtmlContainer from '../components/CustomHtmlContainer';
-import { Spinner } from "native-base";
+import { Spinner, Container, Content } from "native-base";
 
 
 const Index = (props) => {
@@ -28,7 +28,6 @@ const Index = (props) => {
     let cleanupFunction = false;
     async function initLoadIndexPage() {
         let custompage = await AjaxProvider('/custompage');
-        console.log(custompage);
         if (custompage.success) {
           if(!cleanupFunction) {
             setHtml(custompage.html);
@@ -43,13 +42,15 @@ const Index = (props) => {
 
 
   return (
-    <>
-    {isLoaded ? 
-      <CustomHtmlContainer html={customHtml} classesStyles={classStyles}/>
-    : 
-      <Spinner color='green' />
-    }
-    </>
+    <Container>
+      <Content>
+        {isLoaded ? 
+          <CustomHtmlContainer html={customHtml} classesStyles={classStyles}/>
+        : 
+          <Spinner color='green' />
+        }
+       </Content> 
+    </Container>
   );
 };
 

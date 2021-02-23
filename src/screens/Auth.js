@@ -81,10 +81,12 @@ const Auth = (props) => {
               color="#555"
               accessibilityLabel="Quit your account"
             />
-
+           
             {isHistoryLoaded ? 
             <View style={{paddingTop:35}}>
+               <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 24}}>Order History</Text>
               {orderHistory && orderHistory.length ?
+              
                 <List>
                   {orderHistory.map(order => (
                     <ListItem key={order.reference}>
@@ -98,7 +100,7 @@ const Auth = (props) => {
                     </ListItem>
                   ))}
                 </List>
-              : <Text>You've yet to make your first order!</Text> }
+              : <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 24}}>You've yet to make your first order!</Text> }
             </View>
             :
             <View style={{flex:100, alignItems:'center',justifyContent: 'center',flexGrow:2, height:100}}>
