@@ -1,9 +1,10 @@
 #
 By default this project runs on a website
 http://lelerestapi.na4u.ru/
-Look for Config.js to change it to your liking
 
 ## How to run it (At least for Android devices)
+- install Prestashop module from /backend directory (archive it to ZIP first)
+- place your website link to /module/lelerestapi in Config.js (Keep in mind, your website need to have SSL in order for it to work on a final .apk/ios build)
 - npm install
 - yarn install
 - npx react-native run-android  (android)
