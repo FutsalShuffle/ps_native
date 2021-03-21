@@ -1,7 +1,6 @@
 import {GET_COUNTRIES} from './types';
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
 
-
 export const getAvailableCountries = (payload) => {
     return async dispatch  => {
         let countries = await AjaxProviderLogged('/racart?method=getAvailableCountries');

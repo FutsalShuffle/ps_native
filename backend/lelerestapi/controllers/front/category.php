@@ -1,30 +1,26 @@
 <?php
-require_once dirname(__FILE__).'/../../classes/Main.php';
-require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
+require_once dirname(__FILE__).'/../RestController.php';
+
 /**
  * LelerestapiCategoryModuleFrontController
  */
-class LelerestapiCategoryModuleFrontController extends ModuleFrontController
+class LelerestapiCategoryModuleFrontController extends RestController
 {
-    /** @var bool */
-    public $ajax = 1;
-    public $errors = [];
-    public $result = [];
     public $category_id;
     public $p = 1;
     public $nbProducts = 15;
-    public $id_lang = 1;
 
     public function __construct()
     {
         parent::__construct();
-        $this->category_id = Tools::getValue('id_category');
+        $this->category_id = Tools::getValue('id_category', 0);
         if (!$this->category_id) {
+            $this->set404();
             $this->ajaxDie(Tools::jsonEncode('Not Found'));
         }
-        if (Tools::getValue('p')) $this->p = Tools::getValue('p');
-        if (Tools::getValue('nbProducts')) $this->nbProducts = Tools::getValue('nbProducts');
-        if (Tools::getValue('id_lang')) $this->id_lang = (int)Tools::getValue('id_lang');
+        $this->p = (int)Tools::getValue('p', 1);
+        $this->nbProducts = (int)Tools::getValue('nbProducts', 15);
+        $this->id_lang = (int)Tools::getValue('id_lang', 1);
         $this->context->language = new Language($this->id_lang);
     }
     
@@ -37,13 +33,12 @@ class LelerestapiCategoryModuleFrontController extends ModuleFrontController
     {
         $category = new Category((int)$this->category_id, false, $this->context->language->id);
         if (!$category->name) {
-            $this->errors['success'] = 0;
-            $this->errors[] = 'Category doesnt exist';
+            $this->setErrors('category', 'Category doesnt exist');
+            $this->set404();
             return $this->ajaxDie(Tools::jsonEncode($this->errors));
         }
-        $this->result['success'] = 1;
-        $this->result['category'] = $category;
-        $this->result['products'] = $category->getProducts($this->context->language->id, $this->p, $this->nbProducts, null, null, false, true, false, 0, false, null);
+        $this->setResult('category', $category);
+        $this->setResult('products', $category->getProducts($this->context->language->id, $this->p, $this->nbProducts, null, null, false, true, false, 0, false, null));
         return $this->ajaxDie(Tools::jsonEncode($this->result));
     }
     

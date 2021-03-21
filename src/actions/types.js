@@ -9,3 +9,5 @@ export const GET_CATEGORY   = 'GET_CATEGORY';
 export const GET_COUNTRIES  = 'GET_COUNTRIES';
 export const UPDATE_CART_QTY= 'UPDATE_CART_QTY';
 export const GET_PRODUCT    = 'GET_PRODUCT';
+export const ADD_TO_FAVOURITE = 'ADD_TO_FAVOURITE';
+export const GET_FAVOURITE = 'GET_FAVOURITE';

@@ -1,7 +1,6 @@
 import {GET_CATEGORIES, GET_CATEGORY, GET_PRODUCT} from './types';
 import AjaxProvider from '../providers/AjaxProvider';
 
-
 export const getCategories = () => {
     return async dispatch  => {
         let categories = await AjaxProvider('/categories');

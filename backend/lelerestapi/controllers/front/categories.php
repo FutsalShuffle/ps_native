@@ -1,28 +1,16 @@
 <?php
-require_once dirname(__FILE__).'/../../classes/Main.php';
-require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
+require_once dirname(__FILE__).'/../RestController.php';
+
 /**
  * LelerestapiCategoriesModuleFrontController
  */
-class LelerestapiCategoriesModuleFrontController extends ModuleFrontController
+class LelerestapiCategoriesModuleFrontController extends RestController
 {
-    /** @var bool */
-    public $ajax = 1;
-    public $errors = [];
-    public $result = [];
-    public $id_lang = 1;
-
-    public function __construct()
-    {
-        parent::__construct();
-        if (Tools::getValue('id_lang')) $this->id_lang = (int)Tools::getValue('id_lang');
-        $this->context->language = new Language($this->id_lang);
-    }
 
     public function display()
     {
         $category = new Category((int)Configuration::get('PS_HOME_CATEGORY'), $this->context->language->id);
-        $this->result = ['success'=> true, 'categories'=>$this->getCategories($category)];
+        $this->setResult('categories', $this->getCategories($category));
         return $this->ajaxDie(Tools::jsonEncode($this->result));
     }
     
@@ -32,7 +20,7 @@ class LelerestapiCategoriesModuleFrontController extends ModuleFrontController
      * @param  Category $category
      * @return void
      */
-    private function getCategories(Category $category)
+    private function getCategories($category)
     {
         $range = '';
         $maxdepth = 4;

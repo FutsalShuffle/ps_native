@@ -1,26 +1,17 @@
 <?php
-require_once dirname(__FILE__).'/../../classes/Main.php';
-require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
+
+require_once dirname(__FILE__).'/../RestControllerAuth.php';
+
 /**
  * LelerestapiVerifyModuleFrontController
  */
-class LelerestapiVerifyModuleFrontController extends ModuleFrontController
+class LelerestapiVerifyModuleFrontController extends RestControllerAuth
 {
-    /** @var bool */
-    public $ajax = 1;
-    public $errors = [];
-    public $result = [];
 
     public function display()
     {
-        $customer = MainRestApi::validateUser();
-        if (!$customer) $this->result['success'] = false;
-        else {
-            $this->result['success'] = true;
-            $this->result['customer'] = $customer;
-        }
+        $this->setResult('customer', $this->user);
         return $this->ajaxDie(Tools::jsonEncode($this->result));
     }
-
 
 }

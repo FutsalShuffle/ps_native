@@ -1,7 +1,6 @@
 import {ADD_TO_CART, GET_CART, UPDATE_CART_QTY} from './types';
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
 
-
 export const addToCart = (payload) => {
     return async dispatch  => {
         let addToCart = await AjaxProviderLogged('/racart?id_product='+payload.id_product+'&quantity=1&id_product_attribute='+payload.id_product_attribute+'&method=addToCart');

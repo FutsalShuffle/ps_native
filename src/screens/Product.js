@@ -98,11 +98,13 @@ const Product = (props) => {
     if (!selectedCombination) {
       setSelectedCombination(product['id_product_attribute']);
     }
-    productCombinations.forEach(product2 => {
-      if (product2['id_product_attribute'] == selectedCombination) {
-        price += parseFloat(product2['price']);
-      }
-    })
+    if (productCombinations !== undefined && productCombinations.length) {
+      productCombinations.forEach(product2 => {
+        if (product2['id_product_attribute'] == selectedCombination) {
+          price += parseFloat(product2['price']);
+        }
+      })
+    }
     if (price < 0) price = 0;
  
     return price.toFixed(2);
@@ -116,7 +118,7 @@ const Product = (props) => {
           <View>
             <SliderBox sliderBoxHeight={400} images={getImages()} />
             {
-              productCombinations ?
+              productCombinations !== undefined && productCombinations.length ?
               <View style={styles.productInfo}>
                 <Picker
                     selectedValue={selectedCombination}

@@ -2,17 +2,24 @@
 
 require_once dirname(__FILE__).'/../classes/Main.php';
 require_once dirname(__FILE__).'/../classes/RestApiHelpers.php';
+require_once dirname(__FILE__).'/../classes/FavoriteProduct.php';
 
-class RestController extends ModuleFrontController
+class RestControllerAuth extends ModuleFrontController
 {
     public $ajax = 1;
     public $result = [];
     public $method = '';
     public $id_lang;
+    public $user;
 
     public function init()
 	{
 		parent::init();
+        $this->user = MainRestApi::validateUser();
+        if (!$this->user) {
+            $this->set403();
+            die();
+        }
         $this->id_lang = Tools::getValue('id_lang', 1);
         $this->method = Tools::getValue('method');
 		$this->context->language = new Language((int)$this->id_lang);
@@ -29,10 +36,9 @@ class RestController extends ModuleFrontController
         $this->result['success'] = 0;
         $this->result['errors'][$key] = $value;
     }
-
-    public function set404()
+    public function set403()
     {
-        header("HTTP/1.0 404 Not Found");
+        header('HTTP/1.0 403 Forbidden');
     }
 
 }

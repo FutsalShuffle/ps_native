@@ -6,9 +6,8 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import HTML from "react-native-render-html";
-import { Container, Content } from 'native-base';
 import { useWindowDimensions } from 'react-native';
 const CustomHtmlContainer = (props) => {
   const contentWidth = useWindowDimensions().width;

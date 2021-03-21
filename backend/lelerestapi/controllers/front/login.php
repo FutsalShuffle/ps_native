@@ -1,17 +1,12 @@
 <?php
-require_once dirname(__FILE__).'/../../classes/Main.php';
-require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
-class LelerestapiLoginModuleFrontController extends ModuleFrontController
+require_once dirname(__FILE__).'/../RestController.php';
+
+class LelerestapiLoginModuleFrontController extends RestController
 {
-    /** @var bool */
-    public $ajax = 1;
-    public $errors = [];
-    public $result = [];
 
     public function display()
     {
         $this->login();
-        if (empty($this->result)) return $this->ajaxDie(Tools::jsonEncode($this->errors));
         return $this->ajaxDie(Tools::jsonEncode($this->result));
     }
     
@@ -23,25 +18,18 @@ class LelerestapiLoginModuleFrontController extends ModuleFrontController
     public function login() {
         $email = Tools::getValue('email');
         $password = Tools::getValue('password');
-
         if (!$email) {
-            $this->errors[] = 'Please enter valid email';
-            return false;
+            $this->setErrors('email', 'Please enter valid email');
         }
         if (!$password) {
-            $this->errors[] = 'Please enter password';
-            return false;
-
+            $this->setErrors('password', 'Please enter password');
         }
-        if ($this->errors) return false;
+        if (!empty($this->errors)) $this->ajaxDie(Tools::jsonEncode($this->result));
         $customer = new Customer();
-
         if (!$customer->getByEmail($email, $password) && !$customer->id) {
-            $this->errors[] = 'Email or password is not correct';
-            return false;
+            $this->setErrors('customer', 'Email or password is not correct');
         }
-        $this->result['success']  = true;
-        $this->result['customer'] = RestApiHelpers::CustomerToArray($customer, true);
-        return true;
+        if (!empty($this->errors)) $this->ajaxDie(Tools::jsonEncode($this->result));
+        $this->setResult('customer', RestApiHelpers::CustomerToArray($customer, true));
     }
 }

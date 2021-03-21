@@ -93,7 +93,8 @@ const Order = (props) => {
                   </Item>
                   
                     <Button style={{marginTop:15}} full rounded success
-                      onPress={() => onPressMakeOrder()}><Text>Place an order</Text></Button>
+                      onPress={() => onPressMakeOrder()}><Text>Place an order</Text>
+                    </Button>
                   
                   </Form>
             </ScrollView>

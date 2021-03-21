@@ -4,7 +4,7 @@ use PrestaShop\PrestaShop\Adapter\StockManager;
 require_once dirname(__FILE__).'/../../classes/Main.php';
 require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
 /**
- * LelerestapiRACartModuleFrontController
+ * LelerestapiPwExpressOrderModuleFrontController
  */
 class LelerestapiPwexpressOrderModuleFrontController extends ModuleFrontController
 {

@@ -13,6 +13,7 @@ class LelerestapiProductModuleFrontController extends RestController
         parent::__construct();
         $this->id_product = (int)Tools::getValue('id_product');
         if (!$this->id_product) {
+            $this->set404();
             $this->ajaxDie(Tools::jsonEncode('Not Found'));
         }
     }
@@ -43,9 +44,9 @@ class LelerestapiProductModuleFrontController extends RestController
         WHERE p.id_product = ' . $this->id_product;
         $row = Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow($sql);
         if (!is_array($row)) {
-            $this->errors['success'] = 0;
-            $this->errors[] = 'Product doesnt exist';
-            return $this->ajaxDie(Tools::jsonEncode($this->errors));
+            $this->set404();
+            $this->setErrors('product', 'Product does not exist');
+            return $this->ajaxDie(Tools::jsonEncode($this->result));
         }
         $this->setResult('product', Product::getProductProperties($this->context->language->id, $row));
         $this->setResult('images', Image::getImages($this->context->language->id, $this->id_product));
