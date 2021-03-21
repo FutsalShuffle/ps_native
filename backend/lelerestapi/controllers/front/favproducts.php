@@ -27,9 +27,7 @@
 /**
  * @since 1.5.0
  */
-require_once dirname(__FILE__).'/../../classes/Main.php';
-require_once dirname(__FILE__).'/../../classes/RestApiHelpers.php';
-require_once dirname(__FILE__).'/../../classes/FavoriteProduct.php';
+
 
 class LelerestapiFavproductsModuleFrontController extends ModuleFrontController
 {
