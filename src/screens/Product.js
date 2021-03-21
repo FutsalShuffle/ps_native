@@ -10,10 +10,12 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
-  useWindowDimensions
+  useWindowDimensions, 
+  TouchableHighlight
 } from 'react-native';
 import {getProduct} from '../actions/categoryManagement';
 import {addToCart} from '../actions/cartManagement';
+import {AddToFavourite} from '../actions/favProductsManagement';
 import {connect} from 'react-redux';
 import { useIsFocused } from "@react-navigation/native";
 import { Container, Content, Text, Spinner, Button, Icon } from 'native-base';
@@ -31,9 +33,9 @@ const Product = (props) => {
   const isFocused = useIsFocused();
   const [product, setProduct] = useState([]);
   const [images, setImages] = useState([]);
-  const [isInFav, setInFav] = useState(false);
   const [selectedCombination, setSelectedCombination] = useState(0);
   const [productCombinations, setCombination] = useState([]);
+  const [isInFav, setIsInFav] = useState(false);
   const styles = StyleSheet.create({
     productInfo: {
       flex:1,
@@ -77,11 +79,34 @@ const Product = (props) => {
     return () => cleanupFunction = true;
   }, [isFocused]);
 
+  useEffect(() => {
+    let cleanupFunction = false;
+    checkIfInFav();
+    return () => cleanupFunction = true;
+  }, [props.favProducts]);
+
   const addToCart = async (id_product, id_product_attribute) => {
     props.addToCart({
       id_product: id_product,
       id_product_attribute: id_product_attribute ? id_product_attribute : null,
     })
+  }
+
+  const addToFav = async (id_product, id_product_attribute) => {
+    props.AddToFavourite({
+      id_product: id_product,
+      id_product_attribute: id_product_attribute ? id_product_attribute : null,
+    })
+  }
+
+  const checkIfInFav = () => {
+    if ( props.favProducts) {
+      props.favProducts.forEach(prod => {
+        if (prod.id_product == product.id_product) {
+          setIsInFav(true);
+        }
+      })
+    }
   }
 
   const getImages = () => {
@@ -142,7 +167,7 @@ const Product = (props) => {
                 accessibilityLabel="Add to cart"
                 ><Text style={{width:'100%',textAlign:'center'}}>Add to cart</Text></Button>
             </View>
-              <Icon name="heart" style={{ color: isInFav ? 'red': 'gray', textAlign:'right', fontSize:32, paddingRight:15 }} />
+                <Icon onPress={el => addToFav(product.id_product, selectedCombination)} name="heart" style={{ color: isInFav ? 'red': 'gray', textAlign:'right', fontSize:32, paddingRight:15 }} />
             <View>
                 <CustomHtmlContainer html={product.description}/>
             </View>
@@ -160,8 +185,12 @@ const Product = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart: (payload) => dispatch(addToCart(payload)),
-    getProduct: (payload) => dispatch(getProduct(payload)),
+    AddToFavourite: (payload) => dispatch(AddToFavourite(payload)),
   }
 }
-export default connect(null, mapDispatchToProps)(Product);
-
+const mapStateToProps = (state) => {
+  return {
+    favProducts: state.favProducts.products,
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

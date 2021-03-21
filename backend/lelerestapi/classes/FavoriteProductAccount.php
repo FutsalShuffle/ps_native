@@ -53,7 +53,7 @@ class FavoriteProductAccount extends FavoriteProduct
 		return $favoriteProducts;
 	}
     
-    public function getFavoriteProduct($id_product, Shop $shop = null)
+    public function getFavoriteProduct($id_product, $shop = null)
 	{
 		if (!$shop)
 			$shop = Context::getContext()->shop;

@@ -59,7 +59,16 @@ class Lelerestapi extends Module
      */
     public function install()
     {
-        Configuration::updateValue('LELERESTAPI_LIVE_MODE', false);
+        Db::getInstance()->execute('
+				CREATE TABLE `'._DB_PREFIX_.'favorite_product` (
+				`id_favorite_product` int(10) unsigned NOT NULL auto_increment,
+				`id_product` int(10) unsigned NOT NULL,
+				`id_customer` int(10) unsigned NOT NULL,
+				`id_shop` int(10) unsigned NOT NULL,
+				`date_add` datetime NOT NULL,
+  				`date_upd` datetime NOT NULL,
+				PRIMARY KEY (`id_favorite_product`))
+				ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8');
 
         return parent::install() &&
             $this->registerHook('header') &&
@@ -68,8 +77,6 @@ class Lelerestapi extends Module
 
     public function uninstall()
     {
-        Configuration::deleteByName('LELERESTAPI_LIVE_MODE');
-
         return parent::uninstall();
     }
 

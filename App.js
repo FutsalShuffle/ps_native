@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { verifyUser } from './src/actions/userManagement';
 import { getCart } from './src/actions/cartManagement';
 import { getCategories } from './src/actions/categoryManagement';
+import { getFavList } from './src/actions/favProductsManagement';
+
 import { Root, Spinner } from "native-base";
 import { getAvailableCountries } from './src/actions/orderManagement';
 
@@ -23,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
     verify: (payload) => dispatch(verifyUser(payload)),
     getCategories: () => dispatch(getCategories()),
     getCart: () => dispatch(getCart()),
+    getFavList: () => dispatch(getFavList()),
     getAvailableCountries: () => dispatch(getAvailableCountries()),
   }
 }
@@ -34,6 +37,7 @@ const App = (props) => {
     async function initLoadApp() {
       await props.verify();
       await props.getCategories();
+      await props.getFavList();
       setIsLoaded(true);
     }
     initLoadApp()

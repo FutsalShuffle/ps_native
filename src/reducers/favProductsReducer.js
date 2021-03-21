@@ -7,14 +7,21 @@ const initialState = {
 const favProductsReducer = (state = initialState, action) => {
     switch(action.type) {
         case ADD_TO_FAVOURITE:
-            if (action.payload !== null && action.payload.products) {
+            if (action.payload.products) {
                 return  {
-                    ...state,
                     products: action.payload.products,
                 }
           } else {
               return state;
           }
+        case GET_FAVOURITE:
+            if (action.payload.products) {
+                return  {
+                    products: action.payload.products,
+                }
+            } else {
+                return state;
+        }
         default:
             return state;
 
