@@ -9,17 +9,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   View,
-  Image, StyleSheet,
+  StyleSheet,
   SafeAreaView,
-  ScrollView, Button
+  ScrollView
 } from 'react-native';
-import Config from '../../Config';
-import {addToCart} from '../actions/cartManagement';
-import {connect} from 'react-redux';
 import { useIsFocused } from "@react-navigation/native";
 import { Container, Content, Text, Spinner } from 'native-base';
 import AjaxProvider from '../providers/AjaxProvider';
-
+import ProductMiniature from '../components/Miniatures/Product';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -72,15 +69,6 @@ const Category = (props) => {
     return () => cleanupFunction = true;
   }, [isFocused]);
 
-
-  const addToCart = async (id_product, id_product_attribute) => {
-    props.addToCart({
-      id_product: id_product,
-      id_product_attribute: id_product_attribute,
-    })
-    
-  }
-
   return (
     <Container>
         <Content>
@@ -91,24 +79,7 @@ const Category = (props) => {
             <View style={styles.container}>
             { products && products !== undefined ?
                   products.map(product => (
-                    <View style={styles.product} key={product.id_product}>
-                        <Image 
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: Config.baseURI+product.cover_image_id+'-home_default/'+product.link_rewrite+'.jpg'
-                        }}
-                      />
-                        <Text onPress={() => props.navigation.navigate('Product', { id_product: product.id_product })}>{product.name}</Text>
-                        <Text>{product.price} {Config.currency}</Text>
-                        <View>
-                          <Button
-                            onPress={el => addToCart(product.id_product, product.id_product_attribute)}
-                            title="Add to cart"
-                            color="green"
-                            accessibilityLabel="Add to cart"
-                            />
-                          </View>
-                    </View>
+                    <ProductMiniature product={product} key={product.id_product} onClick={() => props.navigation.navigate('Product', { id_product: product.id_product })}/>
                   ))
                 : null}
               </View>
@@ -124,9 +95,4 @@ const Category = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (payload) => dispatch(addToCart(payload)),
-  }
-}
-export default connect(null, mapDispatchToProps)(Category);
+export default Category;

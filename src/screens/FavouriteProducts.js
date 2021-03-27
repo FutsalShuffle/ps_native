@@ -15,6 +15,7 @@ import {
 import {connect} from 'react-redux';
 import { Container, Content } from 'native-base';
 import { getCart } from '../actions/cartManagement';
+import ProductMiniature from '../components/Miniatures/Product';
 
 const FavouriteProducts = (props) => {
   return (
@@ -24,9 +25,7 @@ const FavouriteProducts = (props) => {
             <View>
               {
                 props.favProducts.map(product => (
-                  <View key={product.id_product}>
-                      <Text>{product.id_product}</Text>
-                  </View>
+                  <ProductMiniature product={product} key={product.id_product} onClick={() => props.navigation.navigate('Product', { id_product: product.id_product })}/>
                 ))
               }
             </View>

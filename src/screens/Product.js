@@ -163,7 +163,7 @@ const Product = (props) => {
               <Text style={styles.productPrice}>{getProductPrice(product.price)} {Config.currency}</Text>
               <Button
                 style={{flex:1, flexGrow:1}}
-                onPress={el => addToCart(product.id, selectedCombination)}
+                onPress={el => addToCart(product.id_product, selectedCombination)}
                 accessibilityLabel="Add to cart"
                 ><Text style={{width:'100%',textAlign:'center'}}>Add to cart</Text></Button>
             </View>
