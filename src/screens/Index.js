@@ -17,29 +17,29 @@ import {
 
 const Index = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [customHtml, setHtml]   = useState(false);
+  const [customHtml, setHtml] = useState(false);
   const [homeslider, setHomeslider] = useState(false);
 
-  const classStyles = { 
-    "fig-img": { textAlign: 'center'}, 
-    "img-fullwidth": { width: '100%' }, 
+  const classStyles = {
+    "fig-img": { textAlign: 'center' },
+    "img-fullwidth": { width: '100%' },
     "img-border": { borderWidth: 5, },
-    "img-bg": { width: '100%',backgroundColor:'gray', height:250 },
-    "markup": { fontSize:16, },
+    "img-bg": { width: '100%', backgroundColor: 'gray', height: 250 },
+    "markup": { fontSize: 16, },
   };
 
   useEffect(() => {
     let cleanupFunction = false;
     async function initLoadIndexPage() {
-        let custompage = await AjaxProvider('/custompage');
-        if (custompage.success) {
-          if(!cleanupFunction) {
-            setHtml(custompage.html);
-            setHomeslider(custompage.slides);
-            setIsLoaded(true);
-          }
+      let custompage = await AjaxProvider('/custompage');
+      if (custompage.success) {
+        if (!cleanupFunction) {
+          setHtml(custompage.html);
+          setHomeslider(custompage.slides);
+          setIsLoaded(true);
         }
-      
+      }
+
     }
     initLoadIndexPage();
     return () => cleanupFunction = true;
@@ -59,15 +59,15 @@ const Index = (props) => {
   return (
     <Container>
       <Content>
-        {isLoaded ? 
-        <View>
-          <SliderBox sliderBoxHeight={300} images={getSlides()} autoplay />
-          <CustomHtmlContainer html={customHtml} classesStyles={classStyles}/>
-        </View>
-        : 
+        {isLoaded ?
+          <View>
+            <SliderBox sliderBoxHeight={300} images={getSlides()} autoplay />
+            <CustomHtmlContainer html={customHtml} classesStyles={classStyles} />
+          </View>
+          :
           <Spinner color='green' />
         }
-       </Content> 
+      </Content>
     </Container>
   );
 };

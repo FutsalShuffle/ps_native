@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Category from '../screens/Category';
 import Categories from '../screens/Categories';
@@ -21,36 +21,36 @@ const Tab = createBottomTabNavigator();
 const CategoryStack = createStackNavigator();
 
 const CategoryStackScreen = props => {
-    return (
-      <CategoryStack.Navigator>
-        <CategoryStack.Screen
-          name="Categories"
-          component={Categories}
-          options={{ title: 'Categories' }}
-        />
-        <CategoryStack.Screen
-          name="Category"
-          component={Category}
-          options={{ title: 'Category' }}
-        />
-        <CategoryStack.Screen
-          name="Product"
-          component={Product}
-          options={{ title: 'Product' }}
-        />
-      </CategoryStack.Navigator>
-    );
+  return (
+    <CategoryStack.Navigator>
+      <CategoryStack.Screen
+        name="Categories"
+        component={Categories}
+        options={{ title: 'Categories' }}
+      />
+      <CategoryStack.Screen
+        name="Category"
+        component={Category}
+        options={{ title: 'Category' }}
+      />
+      <CategoryStack.Screen
+        name="Product"
+        component={Product}
+        options={{ title: 'Product' }}
+      />
+    </CategoryStack.Navigator>
+  );
 }
 
 const UserStackScreen = props => {
-    return (
-      <CategoryStack.Navigator>
-        <CategoryStack.Screen
-          name="Profile"
-          component={Auth}
-        />
-      </CategoryStack.Navigator>
-    );
+  return (
+    <CategoryStack.Navigator>
+      <CategoryStack.Screen
+        name="Profile"
+        component={Auth}
+      />
+    </CategoryStack.Navigator>
+  );
 }
 const CartStackScreen = props => {
   return (
@@ -59,7 +59,7 @@ const CartStackScreen = props => {
         name="Cart"
         component={Cart}
       />
-    <CategoryStack.Screen
+      <CategoryStack.Screen
         name="Order"
         component={Order}
       />
@@ -67,43 +67,43 @@ const CartStackScreen = props => {
   );
 }
 const tabBar = props => (
-      <Tab.Navigator>
-        
-        <Tab.Screen name="Profile" component={UserStackScreen} options={{
-          tabBarIcon: ({color}) => (
-            <Icon name='person'/>
-          ),
-        }} />
-        <Tab.Screen name="Favourites" component={FavouriteProducts} options={{
-          tabBarIcon: ({color}) => (
-            <Icon name='star'/>
-          ),
-        }} />
-        <Tab.Screen name="Home" component={Index} options={{
-          tabBarIcon: ({color}) => (
-            <Icon name='home'/>
-          ),
-        }}/>
-        <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
-          tabBarIcon: ({color}) => (
-            <Icon name='book'/>
-          ),
-        }}/>
-        <Tab.Screen name="Cart" component={CartStackScreen} options={{
-          tabBarIcon: ({color}) => (
-            <Icon name='cart'/>
-          ),
-        }} />
+  <Tab.Navigator>
 
-      </Tab.Navigator>
+    <Tab.Screen name="Profile" component={UserStackScreen} options={{
+      tabBarIcon: ({ color }) => (
+        <Icon name='person' />
+      ),
+    }} />
+    <Tab.Screen name="Favourites" component={FavouriteProducts} options={{
+      tabBarIcon: ({ color }) => (
+        <Icon name='star' />
+      ),
+    }} />
+    <Tab.Screen name="Home" component={Index} options={{
+      tabBarIcon: ({ color }) => (
+        <Icon name='home' />
+      ),
+    }} />
+    <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
+      tabBarIcon: ({ color }) => (
+        <Icon name='book' />
+      ),
+    }} />
+    <Tab.Screen name="Cart" component={CartStackScreen} options={{
+      tabBarIcon: ({ color }) => (
+        <Icon name='cart' />
+      ),
+    }} />
+
+  </Tab.Navigator>
 );
 
-  export default function AppNavigator() {
-    return (
-        <NavigationContainer>
-                <Stack.Navigator headerMode="false" initialRouteName={Tab}>
-                    <Stack.Screen name="Tab" component={tabBar} />
-                </Stack.Navigator>
-        </NavigationContainer>
-    );
-  }
+export default function AppNavigator() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator headerMode="false" initialRouteName={Tab}>
+        <Stack.Screen name="Tab" component={tabBar} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

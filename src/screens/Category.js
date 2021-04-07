@@ -32,13 +32,13 @@ const Category = (props) => {
     container: {
       flex: 1,
       flexDirection: 'row',
-      flexWrap:'wrap',
+      flexWrap: 'wrap',
     },
     tinyLogo: {
       width: '100%',
       height: '65%',
       resizeMode: 'cover'
-      
+
     },
     logo: {
       width: 66,
@@ -55,15 +55,15 @@ const Category = (props) => {
   useEffect(() => {
     let cleanupFunction = false;
     async function initLoadCategory() {
-        let category = await AjaxProvider('/category?id_category='+props.route.params.id_category);
-        if (category && category.products) {
-          if(!cleanupFunction) {
-            if (category.category.name[1]) props.navigation.setOptions({ title: category.category.name[1] });
-            setProducts(category.products);
-            setIsLoaded(true);
-          }
+      let category = await AjaxProvider('/category?id_category=' + props.route.params.id_category);
+      if (category && category.products) {
+        if (!cleanupFunction) {
+          if (category.category.name[1]) props.navigation.setOptions({ title: category.category.name[1] });
+          setProducts(category.products);
+          setIsLoaded(true);
         }
-      
+      }
+
     }
     initLoadCategory();
     return () => cleanupFunction = true;
@@ -71,26 +71,26 @@ const Category = (props) => {
 
   return (
     <Container>
-        <Content>
+      <Content>
         {
-        isLoaded ?
-        <SafeAreaView>
-          <ScrollView contentInsetAdjustmentBehavior="automatic">
-            <View style={styles.container}>
-            { products && products !== undefined ?
-                  products.map(product => (
-                    <ProductMiniature product={product} key={product.id_product} onClick={() => props.navigation.navigate('Product', { id_product: product.id_product })}/>
-                  ))
-                : null}
-              </View>
+          isLoaded ?
+            <SafeAreaView>
+              <ScrollView contentInsetAdjustmentBehavior="automatic">
+                <View style={styles.container}>
+                  {products && products !== undefined ?
+                    products.map(product => (
+                      <ProductMiniature product={product} key={product.id_product} onClick={() => props.navigation.navigate('Product', { id_product: product.id_product })} />
+                    ))
+                    : null}
+                </View>
               </ScrollView>
-              </SafeAreaView>
+            </SafeAreaView>
             :
-            <View style={{flex:100, alignItems:'center',justifyContent: 'center',flexGrow:2, height:100}}>
+            <View style={{ flex: 100, alignItems: 'center', justifyContent: 'center', flexGrow: 2, height: 100 }}>
               <Spinner color='green' />
             </View>
-           }
-          </Content> 
+        }
+      </Content>
     </Container>
   );
 };

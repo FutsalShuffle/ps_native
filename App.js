@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const App = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   useEffect(() => {
     async function initLoadApp() {
       await props.verify();
@@ -53,10 +53,10 @@ const App = (props) => {
       {
         isLoaded ?
           <AppNavigator />
-        :
-        <View style={{flex:100, alignItems:'center',justifyContent: 'center',flexGrow:2, height:100}}>
-          <Spinner color='green' />
-         </View>
+          :
+          <View style={{ flex: 100, alignItems: 'center', justifyContent: 'center', flexGrow: 2, height: 100 }}>
+            <Spinner color='green' />
+          </View>
       }
     </Root>
   );

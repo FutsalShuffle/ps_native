@@ -1,4 +1,4 @@
-import {GET_COUNTRIES} from '../actions/types';
+import { GET_COUNTRIES } from '../actions/types';
 
 const initialState = {
     availableCountries: [],
@@ -6,13 +6,13 @@ const initialState = {
 }
 
 const orderReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GET_COUNTRIES:
             if (action.payload) {
-                return  {
+                return {
                     availableCountries: action.payload.countries,
                 }
-            } 
+            }
             return state;
         default:
             return state;

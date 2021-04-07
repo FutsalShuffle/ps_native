@@ -12,10 +12,10 @@ import { useWindowDimensions } from 'react-native';
 const CustomHtmlContainer = (props) => {
   const contentWidth = useWindowDimensions().width;
   return (
-    <HTML containerStyle={{padding: 15}}
-     source={{html: props.html}}
-     contentWidth={contentWidth}
-     classesStyles={props.classesStyles? props.classesStyles:null}
+    <HTML containerStyle={{ padding: 15 }}
+      source={{ html: props.html }}
+      contentWidth={contentWidth}
+      classesStyles={props.classesStyles ? props.classesStyles : null}
     />
   );
 };

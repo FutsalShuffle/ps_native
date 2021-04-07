@@ -1,10 +1,11 @@
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
-import {ADD_TO_FAVOURITE, GET_FAVOURITE} from './types';
+import { ADD_TO_FAVOURITE, GET_FAVOURITE } from './types';
 
 export const AddToFavourite = (payload) => {
-    return async dispatch  => {
-        let favproducts = await AjaxProviderLogged('/favproducts?method=add&id_product='+payload.id_product+'&id_product_attribute='+payload.id_product_attribute);
-        dispatch(dispatchAddToFavourite(favproducts));
+    return async dispatch => {
+        let favproducts = await AjaxProviderLogged('/favproducts?method=add&id_product=' + payload.id_product + '&id_product_attribute=' + payload.id_product_attribute);
+        if (favproducts)
+            dispatch(dispatchAddToFavourite(favproducts));
     }
 }
 export const dispatchAddToFavourite = (payload) => (
@@ -15,9 +16,10 @@ export const dispatchAddToFavourite = (payload) => (
 );
 
 export const removeFromFavourite = (payload) => {
-    return async dispatch  => {
-        let favproducts = await AjaxProviderLogged('/favproducts?method=remove&id_product='+payload.id_product+'&id_product_attribute='+payload.id_product_attribute);
-        dispatch(dispatchRemoveFromFavourite(favproducts));
+    return async dispatch => {
+        let favproducts = await AjaxProviderLogged('/favproducts?method=remove&id_product=' + payload.id_product + '&id_product_attribute=' + payload.id_product_attribute);
+        if (favproducts)
+            dispatch(dispatchRemoveFromFavourite(favproducts));
     }
 }
 export const dispatchRemoveFromFavourite = (payload) => (
@@ -28,9 +30,10 @@ export const dispatchRemoveFromFavourite = (payload) => (
 );
 
 export const getFavList = () => {
-    return async dispatch  => {
+    return async dispatch => {
         let favproducts = await AjaxProviderLogged('/favproducts?method=list');
-        dispatch(dispatchgetFavList(favproducts));
+        if (favproducts)
+            dispatch(dispatchgetFavList(favproducts));
     }
 }
 export const dispatchgetFavList = (payload) => (

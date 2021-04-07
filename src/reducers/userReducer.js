@@ -1,4 +1,4 @@
-import {VERIFY_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER} from '../actions/types';
+import { VERIFY_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from '../actions/types';
 import localStorage from '../localstorage/LocalStorage';
 
 const initialState = {
@@ -8,17 +8,17 @@ const initialState = {
 }
 
 const userReducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case VERIFY_USER:
             if (action.payload !== null && action.payload.customer) {
-                return  {
+                return {
                     ...state,
                     customer: action.payload.customer,
                     isLoggedIn: true
                 }
-          } else {
-              return state;
-          }
+            } else {
+                return state;
+            }
         case LOGOUT_USER:
             localStorage.storeJwt('');
             return {
@@ -26,23 +26,9 @@ const userReducer = (state = initialState, action) => {
                 isLoggedIn: false,
             }
         case LOGIN_USER:
-                if (action.payload !== null && action.payload.customer) {
-                    localStorage.storeJwt(action.payload.customer.token);
-                    return  {
-                        ...state,
-                        customer: action.payload.customer,
-                        isLoggedIn: true
-                    }
-              } else {
-                  return {
-                      ...state,
-                      errors: action.payload[0]
-                  }
-              }
-        case REGISTER_USER:
             if (action.payload !== null && action.payload.customer) {
                 localStorage.storeJwt(action.payload.customer.token);
-                return  {
+                return {
                     ...state,
                     customer: action.payload.customer,
                     isLoggedIn: true
@@ -50,9 +36,23 @@ const userReducer = (state = initialState, action) => {
             } else {
                 return {
                     ...state,
-                    errors: action.payload[0]
+                    errors: action.payload.errors
                 }
+            }
+        case REGISTER_USER:
+            if (action.payload !== null && action.payload.customer) {
+                localStorage.storeJwt(action.payload.customer.token);
+                return {
+                    ...state,
+                    customer: action.payload.customer,
+                    isLoggedIn: true
                 }
+            } else {
+                return {
+                    ...state,
+                    errors: action.payload.errors
+                }
+            }
         default:
             return state;
 

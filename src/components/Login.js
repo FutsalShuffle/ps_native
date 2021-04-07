@@ -11,15 +11,15 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {  Button, Form, Item, Input, Label } from 'native-base';
+import { Button, Form, Item, Input, Label } from 'native-base';
 
-import {connect} from 'react-redux';
-import {loginUser} from '../actions/userManagement';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/userManagement';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+
   const onPressLogin = async () => {
     props.login({
       email: email,
@@ -28,28 +28,30 @@ const Login = (props) => {
   }
 
   return (
- 
-          <Form style={{paddingTop:10}}>
-            <Item fixedLabel>
-              <Label>Email*</Label>
-              <Input 
-              onChangeText={text => setEmail(text)} />
-            </Item>
-            <Item fixedLabel>
-              <Label>Password*</Label>
-              <Input 
-              secureTextEntry={true}
-              onChangeText={text => setPassword(text)} />
-            </Item>
+    <Form style={{ paddingTop: 10 }}>
+      {props.errors && props.errors.email ?
+        <Text style={{color:'red'}}>{props.errors.email}</Text>
+      :null}
+      <Item fixedLabel>
+        <Label>Email*</Label>
+        <Input
+          onChangeText={text => setEmail(text)} />
+      </Item>
+      {props.errors && props.errors.password ?
+        <Text style={{color:'red'}}>{props.errors.password}</Text>
+      :null}
+      <Item fixedLabel>
+        <Label>Password*</Label>
+        <Input
+          secureTextEntry={true}
+          onChangeText={text => setPassword(text)} />
+      </Item>
 
-            <Button style={{marginTop:25}} onPress={onPressLogin} block info>
-                <Text>Login</Text>
-            </Button>
+      <Button style={{ marginTop: 25 }} onPress={onPressLogin} block info>
+        <Text>Login</Text>
+      </Button>
 
-            <Text>{props.errors ? props.errors : null}</Text>
-
-          </Form>
-     
+    </Form>
   );
 };
 
@@ -68,4 +70,3 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
- 
