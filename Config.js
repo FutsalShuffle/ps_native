@@ -1,6 +1,6 @@
 let Config = {
-    'API': 'https://lelerestapi.na4u.ru/module/lelerestapi',
-    'baseURI': 'https://lelerestapi.na4u.ru/',
-    'currency': '£',
+    'API': 'http://192.168.0.10/module/lelerestapi',
+    'baseURI': 'http://192.168.0.10/',
+    'currency': 'Q',
 }
 export default Config;
