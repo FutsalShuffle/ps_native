@@ -42,8 +42,8 @@ const Cart = (props) => {
 
   //аттрибут : attribute_small, название категории: category, название: product.name, кол-во в корзине: product.cart_quantity
   return (
-    <Container>
-      <Content>
+    <View>
+      <View>
         {props.cart && props.cart.length ?
           <View>
             <SafeAreaView>
@@ -88,8 +88,8 @@ const Cart = (props) => {
             <Text>Your cart is empty</Text>
           </View>
         }
-      </Content>
-    </Container>
+      </View>
+    </View>
   );
 };
 const mapStateToProps = (state) => {

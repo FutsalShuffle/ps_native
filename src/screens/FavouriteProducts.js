@@ -8,18 +8,17 @@
 
 import React from 'react';
 import {
-  StyleSheet,
-  View
+  StyleSheet, View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Container, Content } from 'native-base';
+import { Center } from 'native-base';
 import { getCart } from '../actions/cartManagement';
 import ProductMiniature from '../components/Miniatures/Product';
 
 const FavouriteProducts = (props) => {
   return (
-    <Container>
-      <Content>
+    <View>
+      <Center>
         {props.favProducts && props.favProducts.length ?
           <View>
             {
@@ -29,8 +28,8 @@ const FavouriteProducts = (props) => {
             }
           </View>
           : null}
-      </Content>
-    </Container>
+      </Center>
+    </View>
   );
 };
 const mapStateToProps = (state) => {

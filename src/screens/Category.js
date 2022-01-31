@@ -14,7 +14,7 @@ import {
   ScrollView
 } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
-import { Container, Content, Text, Spinner } from 'native-base';
+import { Text, Spinner } from 'native-base';
 import AjaxProvider from '../providers/AjaxProvider';
 import ProductMiniature from '../components/Miniatures/Product';
 
@@ -70,8 +70,8 @@ const Category = (props) => {
   }, [isFocused]);
 
   return (
-    <Container>
-      <Content>
+    <View>
+      <View>
         {
           isLoaded ?
             <SafeAreaView>
@@ -90,8 +90,8 @@ const Category = (props) => {
               <Spinner color='green' />
             </View>
         }
-      </Content>
-    </Container>
+      </View>
+    </View>
   );
 };
 

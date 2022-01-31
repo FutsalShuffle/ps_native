@@ -8,13 +8,16 @@ import {name as appName} from './app.json';
 import {Provider} from 'react-redux';
 import configureStore from './src/store';
 import 'react-native-gesture-handler';
+import {NativeBaseProvider, Spinner} from 'native-base';
 
 const store = configureStore();
 
-const reduxStore = () => 
+const reduxStore = () => (
+  <NativeBaseProvider store={store}>
     <Provider store={store}>
-        <App/>
+      <App />
     </Provider>
-
+  </NativeBaseProvider>
+);
 
 AppRegistry.registerComponent(appName, () => reduxStore);

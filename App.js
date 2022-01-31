@@ -49,7 +49,7 @@ const App = (props) => {
   }, [props.isLoggedIn]);
 
   return (
-    <Root>
+    <>
       {
         isLoaded ?
           <AppNavigator />
@@ -58,7 +58,7 @@ const App = (props) => {
             <Spinner color='green' />
           </View>
       }
-    </Root>
+    </>
   );
 };
 
