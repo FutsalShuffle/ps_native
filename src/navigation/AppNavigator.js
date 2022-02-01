@@ -81,12 +81,12 @@ const tabBar = props => (
     }} />
     <Tab.Screen name="Home" component={Index} options={{
       tabBarIcon: ({ color }) => (
-        <Icon name='home' />
+        <Icon name='home'  />
       ),
     }} />
     <Tab.Screen name="Categories" component={CategoryStackScreen} options={{
       tabBarIcon: ({ color }) => (
-        <Icon name='book' />
+        <Icon name='book'  />
       ),
     }} />
     <Tab.Screen name="Cart" component={CartStackScreen} options={{

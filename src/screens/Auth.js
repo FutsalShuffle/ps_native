@@ -38,6 +38,8 @@ import {
   VStack,
   Heading,
 } from 'native-base';
+import {Icon, Badge} from 'native-base';
+import {Ionicons, FontAwesome} from '@expo/vector-icons';
 
 const Auth = props => {
   const isFocused = useIsFocused();
@@ -147,7 +149,8 @@ const Auth = props => {
                       fontWeight="500"
                       ml="-0.5"
                       mt="-1">
-                      The Silicon Valley of India.
+                      The Silicon Valley of India.{' '}
+                      <Icon as={FontAwesome} color="red" name="home" />
                     </Text>
                   </Stack>
                   <Text fontWeight="400">
@@ -238,6 +241,7 @@ const Auth = props => {
                   <View>
                     <TouchableOpacity onPress={el => swapScreen()}>
                       <Text>Don't have an account yet? Register now!</Text>
+                      <Icon as={FontAwesome} color="red" name="home" />
                     </TouchableOpacity>
 
                     <Login />
