@@ -24,6 +24,40 @@ import {
 } from 'native-base';
 import Auth from '../screens/Auth';
 import {connect} from 'react-redux';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import Category from '../screens/Category';
+import Categories from '../screens/Categories';
+import Product from '../screens/Product';
+const CategoryStack = createStackNavigator();
+
+const CategoryStackScreen = props => {
+  return (
+    <CategoryStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: 'white',
+        },
+      }}>
+      <CategoryStack.Screen
+        name="Categories"
+        component={Categories}
+        options={{title: 'Categories'}}
+      />
+      <CategoryStack.Screen
+        name="Category"
+        component={Category}
+        options={{title: 'Category'}}
+      />
+      <CategoryStack.Screen
+        name="Product"
+        component={Product}
+        options={{title: 'Product'}}
+      />
+    </CategoryStack.Navigator>
+  );
+};
 
 const Drawer = createDrawerNavigator();
 function Component(props) {
@@ -45,7 +79,7 @@ function CustomDrawerContent(props) {
             Mi profile
           </Text>
           <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-            Welcome 
+            Welcome
           </Text>
         </Box>
         <VStack divider={<Divider />} space="4">
@@ -81,14 +115,13 @@ function CustomDrawerContent(props) {
     </DrawerContentScrollView>
   );
 }
-export const DrawerMenu = props => {
-  console.log('drawer props: ', props)
+export const DrawerMenuCategories = props => {
+  console.log('drawer props: ', props);
   return (
     <Box safeArea flex={1}>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerContent {...props} />}>
-        <Drawer.Screen name="MyProfile" component={Auth} />
-        <Drawer.Screen name="Settings" component={Auth} />
+        <Drawer.Screen name="AllCategories" component={CategoryStackScreen} />
       </Drawer.Navigator>
     </Box>
   );
@@ -106,4 +139,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DrawerMenuCategories);

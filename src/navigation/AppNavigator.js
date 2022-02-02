@@ -73,11 +73,11 @@ const CartStackScreen = props => {
     </CategoryStack.Navigator>
   );
 };
-const tabBar = props => (
+const TabBar = props => (
   <Tab.Navigator>
     <Tab.Screen
       name="Profile"
-      component={UserStackScreen}
+      component={DrawerMenu}
       options={{
         tabBarIcon: ({color}) => <Icon name="user" size={30} color="purple" />,
       }}
@@ -131,12 +131,7 @@ export const AppNavigator = props => {
           <>
             <Stack.Screen
               name="Tab"
-              component={tabBar}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="ProtectedScreen"
-              component={DrawerMenu}
+              component={TabBar}
               options={{headerShown: false}}
             />
           </>
