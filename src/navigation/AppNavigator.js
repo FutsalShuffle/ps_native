@@ -11,7 +11,7 @@ import FavouriteProducts from '../screens/FavouriteProducts';
 import Product from '../screens/Product';
 import DrawerMenu from './DrawerMenu';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Icon, Badge} from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 
 const Stack = createStackNavigator();
@@ -79,35 +79,37 @@ const tabBar = props => (
       name="Profile"
       component={UserStackScreen}
       options={{
-        tabBarIcon: ({color}) => <Icon name="person" />,
+        tabBarIcon: ({color}) => <Icon name="user" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
       name="Favourites"
       component={FavouriteProducts}
       options={{
-        tabBarIcon: ({color}) => <Icon name="star" />,
+        tabBarIcon: ({color}) => <Icon name="star" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
       name="Home"
       component={Index}
       options={{
-        tabBarIcon: ({color}) => <Icon name="home" />,
+        tabBarIcon: ({color}) => <Icon name="home" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
       name="Categories"
       component={CategoryStackScreen}
       options={{
-        tabBarIcon: ({color}) => <Icon name="book" />,
+        tabBarIcon: ({color}) => <Icon name="book" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
       name="Cart"
       component={CartStackScreen}
       options={{
-        tabBarIcon: ({color}) => <Icon name="cart" />,
+        tabBarIcon: ({color}) => (
+          <Icon name="shopping-cart" size={30} color="purple" />
+        ),
       }}
     />
   </Tab.Navigator>

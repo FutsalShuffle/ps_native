@@ -67,9 +67,6 @@ const Categories = props => {
   return (
     <>
       <Box>
-        <Heading fontSize="xl" p="4" pb="3">
-          Inbox
-        </Heading>
         <FlatList
           data={props.categories}
           renderItem={({item}) => (

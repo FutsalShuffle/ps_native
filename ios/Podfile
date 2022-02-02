@@ -14,6 +14,20 @@ target 'psnative' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-masked-view/masked-view'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'psnativeTests' do
     inherit! :complete
     # Pods for testing

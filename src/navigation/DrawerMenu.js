@@ -6,7 +6,6 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {
   NativeBaseProvider,
   Button,
