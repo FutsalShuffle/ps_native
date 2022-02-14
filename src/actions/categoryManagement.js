@@ -4,6 +4,7 @@ import AjaxProvider from '../providers/AjaxProvider';
 export const getCategories = () => {
     return async dispatch => {
         let categories = await AjaxProvider('/categories');
+        console.log('categories:', categories.categories.children);
         dispatch(dispatchGetCategories(categories.categories.children));
     }
 }

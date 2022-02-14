@@ -76,24 +76,17 @@ const CartStackScreen = props => {
 const TabBar = props => (
   <Tab.Navigator>
     <Tab.Screen
-      name="Profile"
-      component={DrawerMenu}
+      name="Home"
+      component={Index}
       options={{
-        tabBarIcon: ({color}) => <Icon name="user" size={30} color="purple" />,
+        tabBarIcon: ({color}) => <Icon name="home" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
       name="Favourites"
       component={FavouriteProducts}
       options={{
-        tabBarIcon: ({color}) => <Icon name="star" size={30} color="purple" />,
-      }}
-    />
-    <Tab.Screen
-      name="Home"
-      component={Index}
-      options={{
-        tabBarIcon: ({color}) => <Icon name="home" size={30} color="purple" />,
+        tabBarIcon: ({color}) => <Icon name="heart" size={30} color="purple" />,
       }}
     />
     <Tab.Screen
@@ -110,6 +103,13 @@ const TabBar = props => (
         tabBarIcon: ({color}) => (
           <Icon name="shopping-cart" size={30} color="purple" />
         ),
+      }}
+    />
+    <Tab.Screen
+      name="Profile"
+      component={DrawerMenu}
+      options={{
+        tabBarIcon: ({color}) => <Icon name="user" size={30} color="purple" />,
       }}
     />
   </Tab.Navigator>
