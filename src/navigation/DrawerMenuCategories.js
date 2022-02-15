@@ -76,7 +76,7 @@ function CustomDrawerContent(props) {
       <VStack space="6" my="2" mx="1">
         <Box px="4">
           <Text bold color="gray.700">
-            Mi profile
+            My profile
           </Text>
           <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
             Welcome
@@ -86,6 +86,7 @@ function CustomDrawerContent(props) {
           <VStack space="3">
             {props.state.routeNames.map((name, index) => (
               <Pressable
+              key={index}
                 px="5"
                 py="3"
                 rounded="md"

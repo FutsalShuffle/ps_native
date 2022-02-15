@@ -43,7 +43,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const Auth = props => {
   const isFocused = useIsFocused();
   const [showRegister, setShowRegister] = useState(0);
-  const [isHistoryLoaded, setHistoryLoaded] = useState(false);
+  const [isHistoryLoaded, setHistoryLoaded] = useState(0);
   const swapScreen = () => {
     if (!showRegister) setShowRegister(1);
     if (showRegister) setShowRegister(0);
@@ -68,23 +68,22 @@ const Auth = props => {
     props.logout();
   };
 
-  useEffect(() => {
-    let cleanupFunction = false;
-    async function initLoadHistory() {
-      let history = await AjaxProviderLogged('/orderhistory');
-      if (history && history.history) {
-        if (!cleanupFunction) {
-          setOrderHistory(history.history);
-          setHistoryLoaded(true);
-        }
-      }
+  const initLoadHistory = async () => {
+    let history = await AjaxProviderLogged('/orderhistory');
+    console.log('history', history);
+    if (history && history.history) {
+      setOrderHistory(history.history);
+      setHistoryLoaded(1);
     }
-    initLoadHistory();
-    return () => (cleanupFunction = true);
-  }, [isFocused]);
+  };
 
+  useEffect(() => {
+    initLoadHistory();
+  }, []);
+
+  console.log('customer', props.customer);
   return (
-    <View style={{paddingTop: 20}}>
+    <ScrollView style={{paddingTop: 20}}>
       <View>
         {props.isLoggedIn ? (
           <>
@@ -194,22 +193,22 @@ const Auth = props => {
                     Order History
                   </Text>
                   {orderHistory && orderHistory.length ? (
-                    <List>
+                    <Stack>
                       {orderHistory.map(order => (
-                        <ListItem key={order.reference}>
-                          <Left>
+                        <Stack key={order.reference}>
+                          <Stack>
                             <Text>Ref.: </Text>
                             <Text>{order.reference}</Text>
-                          </Left>
-                          <Right>
+                          </Stack>
+                          <Stack>
                             <Text>
                               {parseFloat(order.total_paid_tax_incl).toFixed(2)}{' '}
                               {Config.currency}
                             </Text>
-                          </Right>
-                        </ListItem>
+                          </Stack>
+                        </Stack>
                       ))}
-                    </List>
+                    </Stack>
                   ) : (
                     <Text
                       style={{
@@ -262,7 +261,7 @@ const Auth = props => {
           </SafeAreaView>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 const mapStateToProps = state => {

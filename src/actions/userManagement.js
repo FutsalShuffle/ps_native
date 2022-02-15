@@ -5,8 +5,8 @@ import AjaxProviderLogged from '../providers/AjaxProviderLogged';
 export const loginUser = (payload) => {
     return async dispatch => {
         let user = await AjaxProvider('/login?email=' + payload.email + '&password=' + payload.password);
-        dispatch(dispatchLoginUser(user));
         console.log('login: ', user);
+        dispatch(dispatchLoginUser(user));
     }
 }
 

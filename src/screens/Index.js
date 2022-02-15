@@ -10,92 +10,14 @@ import React, {useEffect, useState} from 'react';
 import AjaxProvider from '../providers/AjaxProvider';
 import CustomHtmlContainer from '../components/CustomHtmlContainer';
 import {SliderBox} from 'react-native-image-slider-box';
-import {SafeAreaView, ScrollView} from 'react-native';
-import {
-  Spinner,
-  FlatList,
-  Text,
-  Center,
-  Container,
-  Box,
-  Image,
-  HStack,
-  VStack,
-  Spacer,
-  Avatar,
-  Pressable,
-  Badge,
-  Stack,
-  Heading,
-  Divider,
-  Flex,
-  Circle,
-  View,
-} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Categories from '../components/Categories';
+import {Spinner, View} from 'native-base';
 import {connect} from 'react-redux';
 
 const Index = props => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [customHtml, setHtml] = useState(false);
   const [homeslider, setHomeslider] = useState(false);
-
-  const displayRecords = records => {
-    return records.map(item => (
-      <>
-        <Center h="125px" w="100px" rounded="md">
-          <Pressable
-            mx="1"
-            onPress={() =>
-              props.navigation.navigate('Category', {
-                id_category: item.id,
-              })
-            }>
-            <VStack alignItems="center">
-              <Circle size="60px" bg="light.200" mt="2">
-                <Icon name="home" size={35} color="black" />
-              </Circle>
-              <Text
-                alignItems="center"
-                fontSize="xs"
-                fontWeight="500"
-                mt={1}
-                pb={0}>
-                {item.name}
-              </Text>
-              <Spacer />
-            </VStack>
-          </Pressable>
-        </Center>
-        {item.children.map(subItem => (
-          <Center h="125px" w="100px" rounded="md">
-            <Pressable
-              mx="1"
-              onPress={() =>
-                props.navigation.navigate('Category', {
-                  id_category: item.id,
-                })
-              }>
-              <VStack alignItems="center">
-                <Circle size="60px" bg="light.200" mt="2">
-                  <Icon name="home" size={35} color="black" />
-                </Circle>
-                <Text
-                  alignItems="center"
-                  fontSize="xs"
-                  fontWeight="500"
-                  mt={1}
-                  pb={0}>
-                  {subItem.name}
-                </Text>
-                <Spacer />
-              </VStack>
-            </Pressable>
-          </Center>
-        ))}
-      </>
-    ));
-  };
 
   const classStyles = {
     'fig-img': {textAlign: 'center'},
@@ -159,13 +81,7 @@ const Index = props => {
             ImageComponentStyle={{borderRadius: 25, width: '97%', marginTop: 5}}
           />
           <CustomHtmlContainer html={customHtml} classesStyles={classStyles} />
-          <Center>
-            <ScrollView horizontal={true}>
-              <HStack space={3} justifyContent="center">
-                {displayRecords(props.categories)}
-              </HStack>
-            </ScrollView>
-          </Center>
+          <Categories navigation={props.navigation}></Categories>
         </View>
       ) : (
         <Spinner color="green" />

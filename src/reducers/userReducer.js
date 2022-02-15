@@ -28,6 +28,7 @@ const userReducer = (state = initialState, action) => {
         case LOGIN_USER:
             if (action.payload !== null && action.payload.customer) {
                 localStorage.storeJwt(action.payload.customer.token);
+                console.log('storeJwt, login', action.payload.customer);
                 return {
                     ...state,
                     customer: action.payload.customer,
