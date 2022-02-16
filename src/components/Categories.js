@@ -22,8 +22,8 @@ import {connect} from 'react-redux';
 const Categories = props => {
   const displayRecords = records => {
     return records.map(item => (
-      <>
-        <Center h="125px" w="100px" rounded="md">
+      <HStack key={item.id}>
+        <Center h="125px" w="100px" rounded="md" >
           <Pressable
             mx="1"
             onPress={() =>
@@ -48,7 +48,7 @@ const Categories = props => {
           </Pressable>
         </Center>
         {item.children.map(subItem => (
-          <Center h="125px" w="100px" rounded="md">
+          <Center h="125px" w="100px" rounded="md" key={subItem.id}>
             <Pressable
               mx="1"
               onPress={() =>
@@ -73,7 +73,7 @@ const Categories = props => {
             </Pressable>
           </Center>
         ))}
-      </>
+      </HStack>
     ));
   };
 

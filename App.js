@@ -113,7 +113,7 @@ const App = props => {
           source={{
             uri: 'https://cdn-icons-png.flaticon.com/512/825/825533.png',
           }}
-          style={stylesIntroSlider.image}
+          style={stylesIntroSlider.image} alt="intro image"
         />
         <Text style={stylesIntroSlider.text}>{item.text}</Text>
       </View>

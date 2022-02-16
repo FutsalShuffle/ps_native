@@ -2,7 +2,6 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import Category from '../screens/Category';
-import Categories from '../screens/Categories';
 import Index from '../screens/Index';
 import Auth from '../screens/Auth';
 import Cart from '../screens/Cart';
@@ -29,7 +28,7 @@ const CategoryStackScreen = props => {
       }}>
       <CategoryStack.Screen
         name="Categories"
-        component={Categories}
+        component={Index}
         options={{title: 'Categories'}}
       />
       <CategoryStack.Screen
@@ -68,7 +67,7 @@ const CartStackScreen = props => {
           backgroundColor: 'white',
         },
       }}>
-      <CategoryStack.Screen name="Cart" component={Cart} />
+      <CategoryStack.Screen name="CartScreen" component={Cart} />
       <CategoryStack.Screen name="Order" component={Order} />
     </CategoryStack.Navigator>
   );
@@ -77,7 +76,7 @@ const TabBar = props => (
   <Tab.Navigator>
     <Tab.Screen
       name="Home"
-      component={Index}
+      component={CategoryStackScreen}
       options={{
         tabBarIcon: ({color}) => <Icon name="home" size={30} color="purple" />,
       }}
@@ -87,13 +86,6 @@ const TabBar = props => (
       component={FavouriteProducts}
       options={{
         tabBarIcon: ({color}) => <Icon name="heart" size={30} color="purple" />,
-      }}
-    />
-    <Tab.Screen
-      name="Categories"
-      component={CategoryStackScreen}
-      options={{
-        tabBarIcon: ({color}) => <Icon name="book" size={30} color="purple" />,
       }}
     />
     <Tab.Screen

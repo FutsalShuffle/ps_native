@@ -28,7 +28,7 @@ import {connect} from 'react-redux';
 const Drawer = createDrawerNavigator();
 function Component(props) {
   return (
-    <Center>
+    <Center key={props.route.name}>
       <Text mt="12" fontSize="18">
         This is {props.route.name} page.
       </Text>
