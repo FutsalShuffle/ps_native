@@ -6,113 +6,109 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
-import {
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import { connect } from 'react-redux';
+import React, {useState} from 'react';
+import {Text, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {connect} from 'react-redux';
 import AjaxProviderLogged from '../providers/AjaxProviderLogged';
-import { Container, Content, Form, Item, Picker, Input, Label, Button, Left } from 'native-base';
-import { getCart } from '../actions/cartManagement';
+import {
+  Container,
+  Content,
+  FormControl,
+  Item,
+  Select,
+  Input,
+  Label,
+  Button,
+  Box,
+} from 'native-base';
+import {getCart} from '../actions/cartManagement';
 
-
-
-const Order = (props) => {
+const Order = props => {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [address, setAddress] = useState(0);
   const [phone, setPhone] = useState('');
   const [zipcode, setZipcode] = useState('');
 
-  const styles = StyleSheet.create({
-    container: {
-      paddingTop: 80,
-      flex: 10,
-    },
-  });
-
   const onPressMakeOrder = async () => {
-    let response = await AjaxProviderLogged('/pwexpressorder?city=' + city + '&address=' + address + '&phone=' + phone + '&zipcode=' + zipcode + '&country=' + country);
+    let response = await AjaxProviderLogged(
+      '/pwexpressorder?city=' +
+        city +
+        '&address=' +
+        address +
+        '&phone=' +
+        phone +
+        '&zipcode=' +
+        zipcode +
+        '&country=' +
+        country,
+    );
     if (response.success) {
       alert('made an order!');
     }
     props.getCart();
-  }
+  };
 
   return (
-    <Container>
-      <Content>
+    <Box>
+      <Box>
         <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic">
-            <Form style={styles.container}>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <Box>
+              <FormControl isRequired>
+                <FormControl.Label>City*</FormControl.Label>
+                <Input onChangeText={text => setCity(text)} />
+              </FormControl>
 
-              <Item fixedLabel>
-                <Label>City*</Label>
-                <Input
-                  onChangeText={text => setCity(text)} />
-              </Item>
+              <Select
+                placeholder="Country"
+                selectedValue={country}
+                onValueChange={el => setCountry(el)}>
+                {props.availableCountries
+                  ? Object.values(props.availableCountries).map(country => (
+                      <Select.Item
+                        key={country['id_country']}
+                        label={country['country']}
+                        value={country['id_country']}
+                      />
+                    ))
+                  : null}
+              </Select>
 
-              <Item picker>
-                <Left>
-                  <Text style={{ paddingLeft: 15, color: 'lightgray', fontSize: 16 }}>Country*</Text>
-                </Left>
+              <FormControl>
+                <FormControl.Label>Zip code*</FormControl.Label>
+                <Input onChangeText={text => setZipcode(text)} />
+              </FormControl>
+              <FormControl>
+                <FormControl.Label>Address*</FormControl.Label>
+                <Input onChangeText={text => setAddress(text)} />
+              </FormControl>
+              <FormControl>
+                <FormControl.Label>Phone number*</FormControl.Label>
+                <Input onChangeText={text => setPhone(text)} />
+              </FormControl>
 
-                <Picker
-                  placeholder="Country"
-                  selectedValue={country}
-                  onValueChange={(el) => setCountry(el)}
-                >
-                  {
-                    props.availableCountries ?
-                      Object.values(props.availableCountries).map(country => (
-                        <Picker.Item key={country['id_country']} label={country['country']} value={country['id_country']} />
-                      ))
-                      : null
-                  }
-                </Picker>
-              </Item>
-
-              <Item fixedLabel>
-                <Label>Zip code*</Label>
-                <Input
-                  onChangeText={text => setZipcode(text)} />
-              </Item>
-              <Item fixedLabel>
-                <Label>Address*</Label>
-                <Input
-                  onChangeText={text => setAddress(text)} />
-              </Item>
-              <Item fixedLabel>
-                <Label>Phone number*</Label>
-                <Input
-                  onChangeText={text => setPhone(text)} />
-              </Item>
-
-              <Button style={{ marginTop: 15 }} full rounded success
-                onPress={() => onPressMakeOrder()}><Text>Place an order</Text>
+              <Button
+                onPress={() => onPressMakeOrder()}>
+                <Text>Place an order</Text>
               </Button>
-
-            </Form>
+            </Box>
           </ScrollView>
         </SafeAreaView>
-      </Content>
-    </Container>
+      </Box>
+    </Box>
   );
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     cart: state.cart.cart,
     availableCountries: state.order.availableCountries,
-  }
-}
-const mapDispatchToProps = (dispatch) => {
+  };
+};
+const mapDispatchToProps = dispatch => {
   return {
-    getCart: () => dispatch(getCart())
-  }
-}
+    getCart: () => dispatch(getCart()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);

@@ -195,7 +195,7 @@ const Auth = props => {
                   {orderHistory && orderHistory.length ? (
                     <Stack>
                       {orderHistory.map(order => (
-                        <Stack key={order.reference}>
+                        <Stack key={order.id}>
                           <Stack>
                             <Text>Ref.: </Text>
                             <Text>{order.reference}</Text>

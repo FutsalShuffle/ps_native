@@ -20,9 +20,10 @@ import {
   Stack,
   Heading,
   HStack,
-  Thumbnail,
-  Body,
-  Badge,
+  Pressable,
+  Avatar,
+  Spacer,
+  IconButton,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import updateQty from '../actions/cartManagement';
@@ -41,7 +42,6 @@ const Cart = props => {
     });
     return summ.toFixed(2);
   };
-  console.log('cartScreen', props.cart.length);
   //аттрибут : attribute_small, название категории: category, название: product.name, кол-во в корзине: product.cart_quantity
   return (
     <ScrollView>
@@ -49,27 +49,19 @@ const Cart = props => {
         <>
           <VStack space={4} alignItems="center">
             {props.cart.map(product => (
-              <Box alignItems="center">
-                <Box
-                  maxW="80"
-                  rounded="lg"
-                  overflow="hidden"
-                  borderColor="coolGray.200"
-                  borderWidth="1"
+              <Box key={product.id}>
+                <Pressable
+                  onPress={() => console.log('You touched me')}
                   _dark={{
-                    borderColor: 'coolGray.600',
-                    backgroundColor: 'gray.700',
-                  }}
-                  _web={{
-                    shadow: 2,
-                    borderWidth: 0,
+                    bg: 'coolGray.800',
                   }}
                   _light={{
-                    backgroundColor: 'gray.50',
+                    bg: 'white',
                   }}>
-                  <Box>
-                    <AspectRatio w="100%" ratio={16 / 9}>
-                      <Image
+                  <Box pl="4" pr="5" py="2">
+                    <HStack alignItems="center" space={3}>
+                      <Avatar
+                        size="48px"
                         source={{
                           uri:
                             Config.baseURI +
@@ -78,81 +70,54 @@ const Cart = props => {
                             product.link_rewrite +
                             '.jpg',
                         }}
-                        alt="Alternate Text"
                       />
-                    </AspectRatio>
-                    <Center
-                      bg="violet.500"
-                      _dark={{
-                        bg: 'violet.400',
-                      }}
-                      _text={{
-                        color: 'warmGray.50',
-                        fontWeight: '700',
-                        fontSize: 'xs',
-                      }}
-                      position="absolute"
-                      bottom="0"
-                      px="3"
-                      py="1.5">
-                      {Config.currency + '. ' + product.price_real}
-                    </Center>
-                  </Box>
-                  <Stack p="4" space={3}>
-                    <Stack space={2}>
-                      <Heading size="md" ml="-1">
-                        {product.name}
-                      </Heading>
-                      <Text
-                        fontSize="xs"
-                        _light={{
-                          color: 'violet.500',
-                        }}
-                        _dark={{
-                          color: 'violet.400',
-                        }}
-                        fontWeight="500"
-                        ml="-0.5"
-                        mt="-1">
-                        {product.attributes_small
-                          ? product.attributes_small
-                          : null}
-                      </Text>
-                    </Stack>
-                    <Stack>
-                      <Icon
-                        name="plus"
-                        size={30}
-                        color="purple"
-                        onPress={() => props.updateQty('up', product)}
-                      />
-                      <Text style={{fontSize: 23}}>
-                        {product.cart_quantity}
-                      </Text>
-                      <Icon
-                        name="remove"
-                        size={30}
-                        color="purple"
-                        onPress={() => props.updateQty('down', product)}
-                      />
-                    </Stack>
-                    <HStack
-                      alignItems="center"
-                      space={4}
-                      justifyContent="space-between">
-                      <HStack alignItems="center">
+                      <VStack>
+                        <Text
+                          color="coolGray.800"
+                          _dark={{
+                            color: 'warmGray.50',
+                          }}
+                          bold>
+                          {product.name}
+                        </Text>
                         <Text
                           color="coolGray.600"
                           _dark={{
                             color: 'warmGray.200',
-                          }}
-                          fontWeight="400">
-                          6 mins ago
+                          }}>
+                          {product.attributes_small
+                            ? product.attributes_small
+                            : null}
                         </Text>
-                      </HStack>
+                      </VStack>
+                      <Spacer />
+                      <Text
+                        fontSize="xs"
+                        color="coolGray.800"
+                        _dark={{
+                          color: 'warmGray.50',
+                        }}
+                        alignSelf="flex-start">
+                        {Config.currency + '. ' + product.price_real}
+                      </Text>
+                      <Box alignItems="center">
+                        <IconButton
+                          onPress={() => props.updateQty('up', product)}
+                          icon={<Icon name="plus" size={30} color="purple" />}
+                          borderRadius="full"
+                        />
+                        <Text style={{fontSize: 23}}>
+                          {product.cart_quantity}
+                        </Text>
+                        <IconButton
+                          onPress={() => props.updateQty('down', product)}
+                          icon={<Icon name="remove" size={30} color="purple" />}
+                          borderRadius="full"
+                        />
+                      </Box>
                     </HStack>
-                  </Stack>
-                </Box>
+                  </Box>
+                </Pressable>
               </Box>
             ))}
           </VStack>
@@ -163,13 +128,12 @@ const Cart = props => {
             <Button
               onPress={() => props.navigation.navigate('Order')}
               title="Procceed with order"
-              color="#ffffff"
               accessibilityLabel="place an order"
             />
           </Stack>
         </>
       ) : (
-        <View style={styles.container}>
+        <View>
           <Text>Your cart is empty</Text>
         </View>
       )}
