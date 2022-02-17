@@ -7,18 +7,23 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import {Text, Spinner} from 'native-base';
+import {useColorModeValue, Spinner, View, ScrollView, Box} from 'native-base';
 import AjaxProvider from '../providers/AjaxProvider';
 import ProductMiniature from '../components/Miniatures/Product';
-
+import FooterNav from '../navigation/FooterNav';
+import HeaderNav from '../navigation/HeaderNav';
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white',
   },
 });
 const Category = props => {
+  const colorScheme = useColorModeValue('yellow.500', 'green.300');
+  const darkModeScheme = useColorModeValue('info.50', 'info.800');
+  const variant = useColorModeValue('solid', 'outline');
+
   const [isLoaded, setIsLoaded] = useState(false);
   const isFocused = useIsFocused();
   const [products, setProducts] = useState([]);
@@ -67,42 +72,47 @@ const Category = props => {
   }, [isFocused]);
 
   return (
-    <View>
-      <View>
-        {isLoaded ? (
-          <SafeAreaView>
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
-              <View style={styles.container}>
-                {products && products !== undefined
-                  ? products.map(product => (
-                      <ProductMiniature
-                        product={product}
-                        key={product.id_product}
-                        onClick={() =>
-                          props.navigation.navigate('Product', {
-                            id_product: product.id_product,
-                          })
-                        }
-                      />
-                    ))
-                  : null}
-              </View>
-            </ScrollView>
-          </SafeAreaView>
-        ) : (
-          <View
-            style={{
-              flex: 100,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexGrow: 2,
-              height: 100,
-            }}>
-            <Spinner color="green" />
-          </View>
-        )}
-      </View>
-    </View>
+    <Box
+      flex={1}
+      safeAreaTop
+      width="100%"
+      alignSelf="center"
+      bg={darkModeScheme}>
+      <HeaderNav navigation={props.navigation} />
+      {isLoaded ? (
+        <SafeAreaView>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View style={styles.container}>
+              {products && products !== undefined
+                ? products.map(product => (
+                    <ProductMiniature
+                      product={product}
+                      key={product.id_product}
+                      onClick={() =>
+                        props.navigation.navigate('Product', {
+                          id_product: product.id_product,
+                        })
+                      }
+                    />
+                  ))
+                : null}
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <View
+          style={{
+            flex: 100,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexGrow: 2,
+            height: 100,
+          }}>
+          <Spinner color="green" />
+        </View>
+      )}
+      <FooterNav navigation={props.navigation} selected={0} />
+    </Box>
   );
 };
 

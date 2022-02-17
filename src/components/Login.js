@@ -19,7 +19,7 @@ import {
   Button,
   HStack,
   Center,
-  NativeBaseProvider,
+  useColorModeValue,
   useColorMode,
 } from 'native-base';
 
@@ -27,6 +27,9 @@ import {connect} from 'react-redux';
 import {loginUser} from '../actions/userManagement';
 
 const Login = props => {
+  const colorScheme = useColorModeValue('yellow.500', 'green.300');
+  const darkModeScheme = useColorModeValue('info.50', 'info.800');
+  const variant = useColorModeValue('solid', 'outline');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -82,14 +85,14 @@ const Login = props => {
               _text={{
                 fontSize: 'xs',
                 fontWeight: '500',
-                color: 'indigo.500',
+                color: 'orange.500',
               }}
               alignSelf="flex-end"
               mt="1">
               Forget Password?
             </Link>
           </FormControl>
-          <Button mt="2" colorScheme="indigo"  onPress={onPressLogin}>
+          <Button mt="2" colorScheme="orange" onPress={onPressLogin}>
             Sign in
           </Button>
           <HStack mt="6" justifyContent="center">
@@ -103,7 +106,7 @@ const Login = props => {
             </Text>
             <Link
               _text={{
-                color: 'indigo.500',
+                color: 'orange.500',
                 fontWeight: 'medium',
                 fontSize: 'sm',
               }}

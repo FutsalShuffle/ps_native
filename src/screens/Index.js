@@ -12,8 +12,9 @@ import CustomHtmlContainer from '../components/CustomHtmlContainer';
 import {SliderBox} from 'react-native-image-slider-box';
 import Categories from '../components/Categories';
 import Category from '../screens/Category';
-import {Spinner, View, useColorModeValue} from 'native-base';
+import {Spinner, View, useColorModeValue, Box, ScrollView} from 'native-base';
 import {connect} from 'react-redux';
+import FooterNav from '../navigation/FooterNav';
 
 const Index = props => {
   const colorScheme = useColorModeValue('yellow.500', 'green.300');
@@ -57,7 +58,12 @@ const Index = props => {
   };
 
   return (
-    <>
+    <Box
+      flex={1}
+      safeAreaTop
+      width="100%"
+      alignSelf="center"
+      bg={darkModeScheme}>
       {isLoaded ? (
         <View
           style={{
@@ -85,12 +91,13 @@ const Index = props => {
           />
           <CustomHtmlContainer html={customHtml} classesStyles={classStyles} />
           <Categories navigation={props.navigation}></Categories>
-          <Category></Category>
         </View>
       ) : (
         <Spinner color="green" />
       )}
-    </>
+
+      <FooterNav navigation={props.navigation} selected={0} />
+    </Box>
   );
 };
 

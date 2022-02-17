@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {StatusBar, View, StyleSheet} from 'react-native';
 
 import AppNavigator from './src/navigation/AppNavigator';
+import {NavigationContainer} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {verifyUser} from './src/actions/userManagement';
 import {getCart} from './src/actions/cartManagement';
@@ -11,8 +12,10 @@ import {getAvailableCountries} from './src/actions/orderManagement';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  StorageManager,
-  ColorMode,
+  Box,
+  HStack,
+  Pressable,
+  Center,
   Text,
   Image,
   NativeBaseProvider,
@@ -180,7 +183,9 @@ const App = props => {
     return (
       // pass it to NativeBaseProvider
       <NativeBaseProvider colorModeManager={colorModeManager}>
-        <AppNavigator />
+        <NavigationContainer>
+          <AppNavigator></AppNavigator>
+        </NavigationContainer>
       </NativeBaseProvider>
     );
   }

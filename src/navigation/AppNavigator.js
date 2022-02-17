@@ -73,86 +73,30 @@ const CartStackScreen = props => {
     </CategoryStack.Navigator>
   );
 };
-const TabBar = props => {
-  const colorScheme = useColorModeValue('yellow.500', 'green.300');
-  const darkModeScheme = useColorModeValue('info.50', 'info.800');
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        cardStyle: {
-          backgroundColor: darkModeScheme,
-        },
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={CategoryStackScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="home" size={30} color="darkorange" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Favourites"
-        component={FavouriteProducts}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="heart" size={30} color="darkorange" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Cart"
-        component={CartStackScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="shopping-cart" size={30} color="darkorange" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={DrawerMenu}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="user" size={30} color="darkorange" />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
 
 export const AppNavigator = props => {
   const colorScheme = useColorModeValue('yellow.500', 'green.300');
   const darkModeScheme = useColorModeValue('info.50', 'info.800');
   console.log('navigator: ', props);
   return (
-    <NavigationContainer style={{backgroundColor: colorScheme}}>
-      <Stack.Navigator
-        initialRouteName={Tab}
-        screenOptions={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: 'white',
-          },
-        }}>
-        {props.isLoggedIn ? (
-          <>
-            <Stack.Screen
-              name="Tab"
-              component={TabBar}
-              options={{headerShown: false}}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="LoginScreen" component={Auth} />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      initialRouteName={'Home'}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      {props.isLoggedIn ? (
+        <>
+          <Stack.Screen name="Home" component={CategoryStackScreen} />
+          <Stack.Screen name="Favourites" component={FavouriteProducts} />
+          <Stack.Screen name="Cart" component={CartStackScreen} />
+          <Stack.Screen name="Profile" component={DrawerMenu} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="LoginScreen" component={Auth} />
+        </>
+      )}
+    </Stack.Navigator>
   );
 };
 

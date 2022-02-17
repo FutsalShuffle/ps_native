@@ -70,7 +70,7 @@ const ProductMiniature = (props) => {
         <Button
           onPress={el => addToCart(props.product.id_product, props.product.id_product_attribute)}
           title="Add to cart"
-          color="green"
+          color="orange"
           accessibilityLabel="Add to cart"
         />
       </View>
