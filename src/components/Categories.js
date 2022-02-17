@@ -23,7 +23,7 @@ const Categories = props => {
   const displayRecords = records => {
     return records.map(item => (
       <HStack key={item.id}>
-        <Center h="125px" w="100px" rounded="md" >
+        <Center h={110} w={110} rounded="md">
           <Pressable
             mx="1"
             onPress={() =>
@@ -48,7 +48,7 @@ const Categories = props => {
           </Pressable>
         </Center>
         {item.children.map(subItem => (
-          <Center h="125px" w="100px" rounded="md" key={subItem.id}>
+          <Center h={110} w={110} rounded="md" key={subItem.id}>
             <Pressable
               mx="1"
               onPress={() =>

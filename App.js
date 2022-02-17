@@ -7,25 +7,36 @@ import {verifyUser} from './src/actions/userManagement';
 import {getCart} from './src/actions/cartManagement';
 import {getCategories} from './src/actions/categoryManagement';
 import {getFavList} from './src/actions/favProductsManagement';
-
-import {Icon, Spinner, Text, Image} from 'native-base';
 import {getAvailableCountries} from './src/actions/orderManagement';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  StorageManager,
+  ColorMode,
+  Text,
+  Image,
+  NativeBaseProvider,
+} from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const mapStateToProps = state => {
-  return {
-    customer: state.customer,
-    isLoggedIn: state.isLoggedIn,
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    verify: payload => dispatch(verifyUser(payload)),
-    getCategories: () => dispatch(getCategories()),
-    getCart: () => dispatch(getCart()),
-    getFavList: () => dispatch(getFavList()),
-    getAvailableCountries: () => dispatch(getAvailableCountries()),
-  };
+// Define the colorModeManager,
+// here we are using react-native-async-storage (https://react-native-async-storage.github.io/async-storage/)
+const colorModeManager = {
+  get: async () => {
+    try {
+      let val = await AsyncStorage.getItem('@color-mode');
+      return val === 'dark' ? 'dark' : 'light';
+    } catch (e) {
+      return 'light';
+    }
+  },
+  set: async value => {
+    try {
+      await AsyncStorage.setItem('@color-mode', value);
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
 
 const App = props => {
@@ -37,6 +48,7 @@ const App = props => {
       await props.verify();
       await props.getCategories();
       await props.getFavList();
+      colorModeManager.set('dark');
       setIsLoaded(true);
     }
     initLoadApp();
@@ -113,7 +125,8 @@ const App = props => {
           source={{
             uri: 'https://cdn-icons-png.flaticon.com/512/825/825533.png',
           }}
-          style={stylesIntroSlider.image} alt="intro image"
+          style={stylesIntroSlider.image}
+          alt="intro image"
         />
         <Text style={stylesIntroSlider.text}>{item.text}</Text>
       </View>
@@ -125,11 +138,7 @@ const App = props => {
   const _renderNextButton = () => {
     return (
       <View style={stylesIntroSlider.buttonCircle}>
-        <Icon
-          name="md-arrow-round-forward"
-          color="rgba(255, 255, 255, .9)"
-          size={24}
-        />
+        <Icon name="arrow-circle-right" size={30} color="purple" />
       </View>
     );
   };
@@ -137,7 +146,7 @@ const App = props => {
   const _renderDoneButton = () => {
     return (
       <View style={stylesIntroSlider.buttonCircle}>
-        <Icon name="md-checkmark" color="rgba(255, 255, 255, .9)" size={24} />
+        <Icon name="check-circle" color="rgba(255, 255, 255, .9)" size={24} />
       </View>
     );
   };
@@ -168,8 +177,29 @@ const App = props => {
   if (isDisplayIntro) {
     return <IntroSlider />;
   } else {
-    return <AppNavigator />;
+    return (
+      // pass it to NativeBaseProvider
+      <NativeBaseProvider colorModeManager={colorModeManager}>
+        <AppNavigator />
+      </NativeBaseProvider>
+    );
   }
+};
+
+const mapStateToProps = state => {
+  return {
+    customer: state.customer,
+    isLoggedIn: state.isLoggedIn,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    verify: payload => dispatch(verifyUser(payload)),
+    getCategories: () => dispatch(getCategories()),
+    getCart: () => dispatch(getCart()),
+    getFavList: () => dispatch(getFavList()),
+    getAvailableCountries: () => dispatch(getAvailableCountries()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

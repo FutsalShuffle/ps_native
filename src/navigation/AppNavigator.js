@@ -12,6 +12,7 @@ import DrawerMenu from './DrawerMenu';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
+import {useColorModeValue} from 'native-base';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -72,45 +73,63 @@ const CartStackScreen = props => {
     </CategoryStack.Navigator>
   );
 };
-const TabBar = props => (
-  <Tab.Navigator>
-    <Tab.Screen
-      name="Home"
-      component={CategoryStackScreen}
-      options={{
-        tabBarIcon: ({color}) => <Icon name="home" size={30} color="purple" />,
-      }}
-    />
-    <Tab.Screen
-      name="Favourites"
-      component={FavouriteProducts}
-      options={{
-        tabBarIcon: ({color}) => <Icon name="heart" size={30} color="purple" />,
-      }}
-    />
-    <Tab.Screen
-      name="Cart"
-      component={CartStackScreen}
-      options={{
-        tabBarIcon: ({color}) => (
-          <Icon name="shopping-cart" size={30} color="purple" />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={DrawerMenu}
-      options={{
-        tabBarIcon: ({color}) => <Icon name="user" size={30} color="purple" />,
-      }}
-    />
-  </Tab.Navigator>
-);
+const TabBar = props => {
+  const colorScheme = useColorModeValue('yellow.500', 'green.300');
+  const darkModeScheme = useColorModeValue('info.50', 'info.800');
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: darkModeScheme,
+        },
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={CategoryStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="home" size={30} color="darkorange" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favourites"
+        component={FavouriteProducts}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="heart" size={30} color="darkorange" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={CartStackScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="shopping-cart" size={30} color="darkorange" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={DrawerMenu}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="user" size={30} color="darkorange" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export const AppNavigator = props => {
+  const colorScheme = useColorModeValue('yellow.500', 'green.300');
+  const darkModeScheme = useColorModeValue('info.50', 'info.800');
   console.log('navigator: ', props);
   return (
-    <NavigationContainer>
+    <NavigationContainer style={{backgroundColor: colorScheme}}>
       <Stack.Navigator
         initialRouteName={Tab}
         screenOptions={{

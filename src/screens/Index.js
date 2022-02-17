@@ -11,10 +11,13 @@ import AjaxProvider from '../providers/AjaxProvider';
 import CustomHtmlContainer from '../components/CustomHtmlContainer';
 import {SliderBox} from 'react-native-image-slider-box';
 import Categories from '../components/Categories';
-import {Spinner, View} from 'native-base';
+import Category from '../screens/Category';
+import {Spinner, View, useColorModeValue} from 'native-base';
 import {connect} from 'react-redux';
 
 const Index = props => {
+  const colorScheme = useColorModeValue('yellow.500', 'green.300');
+  const darkModeScheme = useColorModeValue('info.50', 'info.800');
   const [isLoaded, setIsLoaded] = useState(false);
   const [customHtml, setHtml] = useState(false);
   const [homeslider, setHomeslider] = useState(false);
@@ -82,6 +85,7 @@ const Index = props => {
           />
           <CustomHtmlContainer html={customHtml} classesStyles={classStyles} />
           <Categories navigation={props.navigation}></Categories>
+          <Category></Category>
         </View>
       ) : (
         <Spinner color="green" />
